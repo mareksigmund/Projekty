@@ -1,0 +1,27 @@
+<!-- src/app/components/navbar/navbar.component.html -->
+
+<div class="navbar-container">
+  <div class="menu">
+    <a class="menu-item" routerLink="/">Home</a>
+    <a class="menu-item" routerLink="/restaurants">List of Restaurant</a>
+  </div>
+  <div class="logo">
+    <img
+      src="assets/logo.webp"
+      alt="Restaurant App Logo"
+      class="logo-image img-fluid rounded-circle"
+    />
+  </div>
+  <div class="menu">
+    <a class="menu-item" routerLink="/reservation">Reservation</a>
+    <ng-container *ngIf="!(authService.currentUser | async); else loggedIn">
+      <a class="menu-item" routerLink="/register">Login/Register</a>
+    </ng-container>
+    <ng-template #loggedIn>
+      <a class="menu-item" routerLink="/user-panel">{{
+        (authService.currentUser | async)?.firstName
+      }}</a>
+      <a class="menu-item" (click)="logout()">Logout</a>
+    </ng-template>
+  </div>
+</div>

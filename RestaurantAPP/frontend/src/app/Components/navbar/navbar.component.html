@@ -1,0 +1,28 @@
+<div *ngIf="!menuOpen" class="menu-toggle" (click)="toggleMenu()">☰ Menu</div>
+<div class="navbar-container">
+  <div class="menu" [class.open]="menuOpen">
+    <div class="close-menu" (click)="toggleMenu()">✕ Close</div>
+    <a class="menu-item" routerLink="/" (click)="toggleMenu()">Home</a>
+    <a class="menu-item" routerLink="/restaurants" (click)="toggleMenu()"
+      >List of Restaurants</a
+    >
+    <a class="menu-item" routerLink="/" (click)="toggleMenu()">Reservation</a>
+    <ng-container *ngIf="!(authService.currentUser | async); else loggedIn">
+      <a class="menu-item" routerLink="/register" (click)="toggleMenu()"
+        >Login/Register</a
+      >
+    </ng-container>
+    <ng-template #loggedIn>
+      <a class="menu-item" routerLink="/user-panel" (click)="toggleMenu()">
+        {{ (authService.currentUser | async)?.firstName }}
+      </a>
+      <a class="menu-item" (click)="logout(); toggleMenu()">Logout</a>
+    </ng-template>
+  </div>
+</div>
+<div class="menu-overlay" [class.open]="menuOpen" (click)="toggleMenu()"></div>
+
+<div [ngClass]="{ 'content-shift': menuOpen, 'content-normal': !menuOpen }">
+  <!-- główna zawartość strony -->
+  <router-outlet></router-outlet>
+</div>

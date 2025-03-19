@@ -1,0 +1,153 @@
+/* Reset some basic elements */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Arial', sans-serif;
+  background-color: #f0f2f5;
+}
+
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-container {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.register-container h2 {
+  text-align: center;
+  color: #333333;
+  font-size: 28px;
+  margin-bottom: 20px;
+  font-family: 'Lobster', cursive;
+}
+
+.form-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.form-main, .optional-container {
+  width: 100%;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.optional-container {
+  display: none;
+}
+
+.optional-container.show {
+  display: block;
+}
+
+.input-group {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333333;
+  font-size: 14px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.2);
+}
+
+/* Style for invalid input */
+.input-group.invalid input {
+  border-color: #ff0000;
+}
+
+.input-group.invalid input:focus {
+  box-shadow: 0 0 8px rgba(255, 0, 0, 0.2);
+}
+
+/* Error message styling */
+.error-message {
+  color: #ff0000;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #4CAF50, #2E7D32);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #388E3C, #1B5E20);
+}
+
+/* Disabled button styling */
+button:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+}
+
+.toggle-optional {
+  text-align: center;
+  cursor: pointer;
+  margin-top: 10px;
+  color: #333333;
+  font-size: 14px;
+}
+
+a.login-link {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: #4CAF50;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a.login-link:hover {
+  text-decoration: underline;
+}
+
+/* Add some transition effect to the container */
+.register-container, .form-main, .optional-container {
+  transition: all 0.3s ease;
+}

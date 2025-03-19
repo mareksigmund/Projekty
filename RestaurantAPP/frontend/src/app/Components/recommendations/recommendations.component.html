@@ -1,0 +1,74 @@
+<div class="container-fluid recommendations-container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="app-name">Recommendations</h1>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-md-4 user-recommendation-container">
+      <h2 class="section-title">Recommended User</h2>
+      <div *ngIf="recommendedUser" class="user-recommendation">
+        <h3>{{ recommendedUser.firstName }} {{ recommendedUser.lastName }}</h3>
+        <img
+          [src]="recommendedUser.avatar"
+          alt="{{ recommendedUser.firstName }}"
+        />
+        <h4>Ratings and Reviews</h4>
+        <div class="user-ratings">
+          <div
+            *ngFor="let rating of userRatingsWithRestaurants"
+            class="user-rating"
+          >
+            <p>
+              <strong>{{ rating.restaurant.name }}</strong>
+            </p>
+            <p>Rating: {{ rating.rating }}</p>
+            <p>Comment: {{ rating.comment }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <h2 class="section-title">Recommended Restaurants</h2>
+      <div class="restaurant-carousel d-flex justify-content-between">
+        <div
+          *ngFor="let restaurant of recommendedRestaurants"
+          class="restaurant-card"
+        >
+          <img
+            [src]="restaurant.images[0]"
+            alt="{{ restaurant.name }}"
+            class="card-image"
+          />
+          <div class="card-content">
+            <h3 class="card-title">{{ restaurant.name }}</h3>
+            <p class="card-text">{{ restaurant.description }}</p>
+            <div class="card-rating">
+              <fa-icon
+                *ngFor="let star of getStars(restaurant.rating).fullStars"
+                [icon]="faStarSolid"
+                class="text-warning"
+              ></fa-icon>
+              <fa-icon
+                *ngFor="let star of getStars(restaurant.rating).halfStar"
+                [icon]="faStarHalfAlt"
+                class="text-warning"
+              ></fa-icon>
+              <fa-icon
+                *ngFor="let star of getStars(restaurant.rating).emptyStars"
+                [icon]="faStarRegular"
+                class="text-secondary"
+              ></fa-icon>
+            </div>
+            <p>
+              Rating: {{ restaurant.rating | number : "1.0-2" }} ({{
+                restaurant.ratingCount
+              }}
+              reviews)
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,255 @@
+<div class="container h-100 d-flex align-items-center justify-content-center">
+  <div class="register-container">
+    <h2>{{ isLoginMode ? "Login" : "Register" }}</h2>
+    <div class="form-wrapper">
+      <!-- Form for registration -->
+      <form
+        class="form-main"
+        *ngIf="!isLoginMode"
+        (ngSubmit)="register()"
+        #registerForm="ngForm"
+      >
+        <div
+          class="input-group"
+          [class.invalid]="firstName.invalid && firstName.touched"
+        >
+          <label for="firstName">First Name:</label>
+          <input
+            type="text"
+            id="firstName"
+            [(ngModel)]="user.firstName"
+            name="firstName"
+            required
+            pattern="^[A-Z][a-zA-Z]*$"
+            #firstName="ngModel"
+          />
+          <!-- Error message for first name -->
+          <div
+            *ngIf="firstName.invalid && firstName.touched"
+            class="error-message"
+          >
+            First name must start with an uppercase letter.
+          </div>
+        </div>
+        <div
+          class="input-group"
+          [class.invalid]="lastName.invalid && lastName.touched"
+        >
+          <label for="lastName">Last Name:</label>
+          <input
+            type="text"
+            id="lastName"
+            [(ngModel)]="user.lastName"
+            name="lastName"
+            required
+            pattern="^[A-Z][a-zA-Z]*$"
+            #lastName="ngModel"
+          />
+          <!-- Error message for last name -->
+          <div
+            *ngIf="lastName.invalid && lastName.touched"
+            class="error-message"
+          >
+            Last name must start with an uppercase letter.
+          </div>
+        </div>
+        <div
+          class="input-group"
+          [class.invalid]="email.invalid && email.touched"
+        >
+          <label for="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            [(ngModel)]="user.email"
+            name="email"
+            required
+            email
+            #email="ngModel"
+          />
+          <!-- Error message for email -->
+          <div *ngIf="email.invalid && email.touched" class="error-message">
+            Enter a valid email.
+          </div>
+        </div>
+        <div
+          class="input-group"
+          [class.invalid]="password.invalid && password.touched"
+        >
+          <label for="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            [(ngModel)]="user.password"
+            name="password"
+            required
+            minlength="6"
+            #password="ngModel"
+          />
+          <!-- Error message for password -->
+          <div
+            *ngIf="password.invalid && password.touched"
+            class="error-message"
+          >
+            Password must be at least 6 characters.
+          </div>
+        </div>
+        <div
+          class="input-group"
+          [class.invalid]="phone.invalid && phone.touched"
+        >
+          <label for="phone">Phone:</label>
+          <input
+            type="text"
+            id="phone"
+            [(ngModel)]="user.phone"
+            name="phone"
+            required
+            pattern="^[0-9]*$"
+            #phone="ngModel"
+          />
+          <!-- Error message for phone -->
+          <div *ngIf="phone.invalid && phone.touched" class="error-message">
+            Phone number must be a number.
+          </div>
+        </div>
+        <button type="submit" [disabled]="registerForm.invalid">
+          Register
+        </button>
+        <div class="toggle-optional" (click)="toggleOptional()">
+          <span
+            >{{ showOptional ? "▼" : "▶" }} Optional Address Information</span
+          >
+        </div>
+      </form>
+      <!-- Form for optional address information -->
+      <form class="optional-container" [class.show]="showOptional">
+        <div
+          class="input-group"
+          [class.invalid]="street.invalid && street.touched"
+        >
+          <label for="street">Street:</label>
+          <input
+            type="text"
+            id="street"
+            [(ngModel)]="address.street"
+            name="street"
+            pattern="^[A-Z][a-zA-Z\s]*$"
+            #street="ngModel"
+          />
+          <!-- Error message for street -->
+          <div *ngIf="street.invalid && street.touched" class="error-message">
+            Street name must start with an uppercase letter.
+          </div>
+        </div>
+        <div class="input-group" [class.invalid]="city.invalid && city.touched">
+          <label for="city">City:</label>
+          <input
+            type="text"
+            id="city"
+            [(ngModel)]="address.city"
+            name="city"
+            pattern="^[A-Z][a-zA-Z\s]*$"
+            #city="ngModel"
+          />
+          <!-- Error message for city -->
+          <div *ngIf="city.invalid && city.touched" class="error-message">
+            City name must start with an uppercase letter.
+          </div>
+        </div>
+        <div
+          class="input-group"
+          [class.invalid]="state.invalid && state.touched"
+        >
+          <label for="state">State:</label>
+          <input
+            type="text"
+            id="state"
+            [(ngModel)]="address.state"
+            name="state"
+            pattern="^[A-Z][a-zA-Z\s]*$"
+            #state="ngModel"
+          />
+          <!-- Error message for state -->
+          <div *ngIf="state.invalid && state.touched" class="error-message">
+            State name must start with an uppercase letter.
+          </div>
+        </div>
+        <div class="input-group" [class.invalid]="zip.invalid && zip.touched">
+          <label for="zip">Zip Code:</label>
+          <input
+            type="text"
+            id="zip"
+            [(ngModel)]="address.zip"
+            name="zip"
+            pattern="^[0-9]{2}-[0-9]{3}$"
+            #zip="ngModel"
+          />
+          <!-- Error message for zip code -->
+          <div *ngIf="zip.invalid && zip.touched" class="error-message">
+            Zip code must be in the format XX-XXX.
+          </div>
+        </div>
+      </form>
+      <!-- Form for login -->
+      <form
+        class="form-main"
+        *ngIf="isLoginMode"
+        (ngSubmit)="login()"
+        #loginForm="ngForm"
+      >
+        <div
+          class="input-group"
+          [class.invalid]="loginEmail.invalid && loginEmail.touched"
+        >
+          <label for="loginEmail">Email:</label>
+          <input
+            type="email"
+            id="loginEmail"
+            [(ngModel)]="loginData.email"
+            name="loginEmail"
+            required
+            email
+            #loginEmail="ngModel"
+          />
+          <!-- Error message for login email -->
+          <div
+            *ngIf="loginEmail.invalid && loginEmail.touched"
+            class="error-message"
+          >
+            Enter a valid email.
+          </div>
+        </div>
+        <div
+          class="input-group"
+          [class.invalid]="loginPassword.invalid && loginPassword.touched"
+        >
+          <label for="loginPassword">Password:</label>
+          <input
+            type="password"
+            id="loginPassword"
+            [(ngModel)]="loginData.password"
+            name="loginPassword"
+            required
+            #loginPassword="ngModel"
+          />
+          <!-- Error message for login password -->
+          <div
+            *ngIf="loginPassword.invalid && loginPassword.touched"
+            class="error-message"
+          >
+            Password is required.
+          </div>
+        </div>
+        <button type="submit" [disabled]="loginForm.invalid">Login</button>
+      </form>
+    </div>
+    <a class="login-link" (click)="toggleMode()">
+      {{
+        isLoginMode
+          ? "Jeżeli nie masz konta, zarejestruj się"
+          : "Jeżeli masz już konto, zaloguj się"
+      }}
+    </a>
+  </div>
+</div>

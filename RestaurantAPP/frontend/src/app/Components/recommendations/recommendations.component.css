@@ -1,0 +1,123 @@
+.recommendations-container {
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.app-name {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 20px;
+  font-family: 'Lobster', cursive;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 1.75rem;
+  color: #555;
+  margin-bottom: 15px;
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+}
+
+.user-recommendation-container,
+.restaurant-carousel {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.user-recommendation img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-top: 10px;
+}
+
+.user-ratings {
+  margin-top: 20px;
+}
+
+.user-rating {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.restaurant-card {
+  background-color: white;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform-style: preserve-3d;
+  width: 300px;
+}
+
+.restaurant-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-image {
+  border-radius: 15px 15px 0 0;
+  width: 100%;
+  height: auto;
+  max-height: 200px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 10px;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.card-text {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.card-rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.card-rating fa-icon {
+  margin-right: 5px;
+}
+
+.carousel {
+  display: flex;
+  justify-content: space-around;
+}
+
+.user-recommendation h3 {
+  font-size: 1.5rem;
+  margin-top: 10px;
+}
+
+.user-recommendation h4 {
+  font-size: 1.25rem;
+  margin-top: 20px;
+}
+
+.user-ratings p {
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
