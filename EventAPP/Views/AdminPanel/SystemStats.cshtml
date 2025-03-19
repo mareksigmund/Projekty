@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Statystyki Systemu";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center">📊 Statystyki Systemu</h2>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card shadow-lg p-3 mb-4 border-0">
+                <div class="card-body text-center">
+                    <h5 class="card-title">📋 Liczba Użytkowników</h5>
+                    <p class="display-4 text-primary">@ViewBag.TotalUsers</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-lg p-3 mb-4 border-0">
+                <div class="card-body text-center">
+                    <h5 class="card-title">🗓️ Liczba Wydarzeń</h5>
+                    <p class="display-4 text-success">@ViewBag.TotalEvents</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-lg p-3 mb-4 border-0">
+                <div class="card-body text-center">
+                    <h5 class="card-title">👥 Liczba Zapisów</h5>
+                    <p class="display-4 text-warning">@ViewBag.TotalParticipations</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-3">
+        <a asp-action="Index" asp-controller="AdminPanel" class="btn btn-primary">
+            Wróć do Panelu Admina
+        </a>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 15px;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+    }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+</style>

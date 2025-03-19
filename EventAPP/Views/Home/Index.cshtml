@@ -1,0 +1,168 @@
+﻿@{
+    ViewData["Title"] = "Strona Główna";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center g-4">
+
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <div class="col-md-4">
+                <a asp-controller="Account" asp-action="Register" class="text-decoration-none">
+                    <div class="card text-center shadow-lg p-3 mb-4 border-0">
+                        <div class="card-body">
+                            <i class="bi bi-person-plus display-3 text-primary"></i>
+                            <h5 class="card-title mt-3">Rejestracja</h5>
+                            <p class="card-text">Załóż konto i dołącz do społeczności EventAPP.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a asp-controller="Account" asp-action="Login" class="text-decoration-none">
+                    <div class="card text-center shadow-lg p-3 mb-4 border-0">
+                        <div class="card-body">
+                            <i class="bi bi-box-arrow-in-right display-3 text-success"></i>
+                            <h5 class="card-title mt-3">Logowanie</h5>
+                            <p class="card-text">Zaloguj się i zarządzaj swoimi wydarzeniami.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+
+        <div class="col-md-4">
+            <a asp-controller="Event" asp-action="Index" class="text-decoration-none">
+                <div class="card text-center shadow-lg p-3 mb-4 border-0">
+                    <div class="card-body">
+                        <i class="bi bi-calendar-check display-3 text-info"></i>
+                        <h5 class="card-title mt-3">Wydarzenia</h5>
+                        <p class="card-text">Sprawdź dostępne wydarzenia i zapisz się.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- KAFELEK PANEL UŻYTKOWNIKA -->
+        @if (User.IsInRole("User"))
+        {
+            <div class="col-md-4">
+                <a asp-controller="UserPanel" asp-action="Index" class="text-decoration-none">
+                    <div class="card text-center shadow-lg p-3 mb-4 border-0 bg-primary text-white">
+                        <div class="card-body">
+                            <i class="bi bi-person display-3"></i>
+                            <h5 class="card-title mt-3">Panel Użytkownika</h5>
+                            <p class="card-text">Przeglądaj swoje wydarzenia.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+
+        <!-- KAFELEK PANEL MODERATORA -->
+        @if (User.IsInRole("Moderator"))
+        {
+            <div class="col-md-4">
+                <a asp-controller="ModeratorPanel" asp-action="Index" class="text-decoration-none">
+                    <div class="card text-center shadow-lg p-3 mb-4 border-0 bg-warning text-dark">
+                        <div class="card-body">
+                            <i class="bi bi-person-check display-3"></i>
+                            <h5 class="card-title mt-3">Panel Moderatora</h5>
+                            <p class="card-text">Zarządzaj wydarzeniami i uczestnikami.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+
+        <!-- KAFELKI PANELU ADMINA -->
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="col-md-4">
+                <a asp-controller="AdminPanel" asp-action="Index" class="text-decoration-none">
+                    <div class="card text-center shadow-lg p-3 mb-4 border-0 bg-danger text-white">
+                        <div class="card-body">
+                            <i class="bi bi-gear display-3"></i>
+                            <h5 class="card-title mt-3">Panel Admina</h5>
+                            <p class="card-text">Pełne zarządzanie aplikacją EventAPP.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a asp-controller="AdminPanel" asp-action="ManageUsers" class="text-decoration-none">
+                    <div class="card text-center shadow-lg p-3 mb-4 border-0 bg-info text-white">
+                        <div class="card-body">
+                            <i class="bi bi-people display-3"></i>
+                            <h5 class="card-title mt-3">Użytkownicy</h5>
+                            <p class="card-text">Przeglądaj, edytuj lub usuwaj konta użytkowników.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a asp-controller="AdminPanel" asp-action="CreateUser" class="text-decoration-none">
+                    <div class="card text-center shadow-lg p-3 mb-4 border-0 bg-success text-white">
+                        <div class="card-body">
+                            <i class="bi bi-person-plus display-3"></i>
+                            <h5 class="card-title mt-3">Nowy Użytkownik</h5>
+                            <p class="card-text">Tworzenie nowych kont użytkowników z różnymi rolami.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a asp-controller="AdminPanel" asp-action="SystemStats" class="text-decoration-none">
+                    <div class="card text-center shadow-lg p-3 mb-4 border-0 bg-warning text-dark">
+                        <div class="card-body">
+                            <i class="bi bi-bar-chart-line display-3"></i>
+                            <h5 class="card-title mt-3">Statystyki</h5>
+                            <p class="card-text">Dane dotyczące wydarzeń i użytkowników.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .card {
+        width: 100%;
+        height: 200px; /* Stała wysokość dla spójności */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+    }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .card i {
+            font-size: 3rem;
+        }
+
+    .card-title {
+        font-weight: bold;
+    }
+
+    .card-text {
+        font-size: 1rem;
+    }
+
+    .text-muted {
+        opacity: 0.8;
+    }
+
+    .btn-lg {
+        margin-top: 20px;
+    }
+</style>

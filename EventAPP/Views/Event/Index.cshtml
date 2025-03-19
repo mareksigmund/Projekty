@@ -1,0 +1,150 @@
+﻿@model IEnumerable<EventApp.Models.Event>
+
+@{
+    ViewData["Title"] = "Lista Wydarzeń";
+    var userParticipations = ViewBag.UserParticipations as List<int> ?? new List<int>();
+}
+
+<h2 class="text-center fw-bold mt-4">🗓️ Lista Wydarzeń</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success text-center">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger text-center">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<div class="table-responsive">
+    <table class="table table-hover table-striped align-middle shadow-sm rounded">
+        <thead class="table-primary text-center">
+            <tr>
+                <th>Tytuł</th>
+                <th>Data</th>
+                <th>Lokalizacja</th>
+                <th>Organizer</th>
+                <th>Status</th>
+                <th>Wolne miejsca</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="fw-bold">@item.Title</td>
+                    <td>@item.Date.ToString("dd.MM.yyyy HH:mm")</td>
+                    <td>@item.Location</td>
+                    <td>@item.Organizer?.Email</td>
+
+                    <!-- Kolorowe oznaczenia statusów -->
+                    <td>
+                        @switch (item.Status)
+                        {
+                            case EventApp.Enums.EventStatus.Planned:
+                                <span class="badge bg-success">🟢 Zaplanowane</span>
+                                break;
+
+                            case EventApp.Enums.EventStatus.Ongoing:
+                                <span class="badge bg-primary">🔵 W trakcie</span>
+                                break;
+
+                            case EventApp.Enums.EventStatus.Canceled:
+                                <span class="badge bg-danger">❌ Odwołane</span>
+                                break;
+
+                            case EventApp.Enums.EventStatus.Completed:
+                                <span class="badge bg-secondary">✅ Zakończone</span>
+                                break;
+
+                            default:
+                                <span class="badge bg-warning text-dark">Nieznany status</span>
+                                break;
+                        }
+                    </td>
+
+                    <td>
+                        @(item.MaxParticipants - item.CurrentParticipants > 0
+                            ? $"{item.MaxParticipants - item.CurrentParticipants}"
+                            : "Brak miejsc")
+                    </td>
+
+                    <td class="text-center">
+                        <a class="btn btn-outline-info btn-sm" asp-action="Details" asp-route-id="@item.Id">
+                            <i class="bi bi-eye"></i> Szczegóły
+                        </a>
+
+                        @if (User.IsInRole("Admin") ||
+                       (User.IsInRole("Organizer") && item.OrganizerId == ViewBag.UserId) ||
+                       (User.IsInRole("Moderator") && item.OrganizerId == ViewBag.UserId))
+                        {
+                            <a class="btn btn-outline-warning btn-sm" asp-action="Edit" asp-route-id="@item.Id">
+                                <i class="bi bi-pencil-square"></i> Edytuj
+                            </a>
+                            <a class="btn btn-outline-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"
+                               onclick="return confirm('Czy na pewno chcesz usunąć to wydarzenie?')">
+                                <i class="bi bi-trash"></i> Usuń
+                            </a>
+                        }
+
+                        @if (User.IsInRole("User"))
+                        {
+                            @if (userParticipations.Contains(item.Id))
+                            {
+                                <span class="badge bg-success">✅ Już zapisany</span>
+                            }
+                            else if (item.CurrentParticipants < item.MaxParticipants)
+                            {
+                                <form method="post" asp-action="SignUp" asp-route-id="@item.Id" class="d-inline">
+                                    <button type="submit" class="btn btn-primary btn-sm">
+                                        <i class="bi bi-person-check"></i> Zapisz się
+                                    </button>
+                                </form>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">❌ Brak miejsc</span>
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .table th, .table td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .btn {
+        border-radius: 8px;
+    }
+
+    .badge {
+        font-size: 1rem;
+        padding: 5px 10px;
+    }
+
+    .alert {
+        border-radius: 12px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .table-responsive {
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #e3f2fd; /* Delikatne podświetlenie */
+    }
+</style>
