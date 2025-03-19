@@ -1,0 +1,96 @@
+﻿<Window x:Class="LibraryWPF.Views.ReaderPanel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:LibraryWPF.Helpers"
+        Title="Panel Czytelnika" Height="500" Width="800">
+
+    <Window.Resources>
+        <local:PlaceholderConverter x:Key="PlaceholderConverter"/>
+    </Window.Resources>
+
+    <Grid>
+        <TabControl Margin="10" SelectionChanged="TabControl_SelectionChanged">
+
+            <!-- Zakładka: Dostępne książki -->
+            <TabItem Header="Dostępne książki">
+                <StackPanel>
+                    <TextBlock Text="Lista dostępnych książek" FontSize="16" Margin="0,0,0,10"/>
+                    <Grid Margin="0,5,0,10" Width="400">
+                        <TextBox x:Name="TxtSearchBooks" TextChanged="TxtSearchBooks_TextChanged"/>
+                        <TextBlock Text="Wpisz tytuł lub autora..." 
+                                   Foreground="Gray" 
+                                   IsHitTestVisible="False" 
+                                   Margin="5,2,0,0" 
+                                   VerticalAlignment="Center"
+                                   Visibility="{Binding Text, ElementName=TxtSearchBooks, Converter={StaticResource PlaceholderConverter}}"/>
+                    </Grid>
+                    <ListView x:Name="LstAvailableBooks" Height="300">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Tytuł" DisplayMemberBinding="{Binding Title}" Width="300"/>
+                                <GridViewColumn Header="Autor" DisplayMemberBinding="{Binding Author}" Width="200"/>
+                                <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}" Width="100"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </StackPanel>
+            </TabItem>
+
+            <!-- Zakładka: Moje wypożyczenia -->
+            <TabItem Header="Moje wypożyczenia">
+                <StackPanel>
+                    <TextBlock Text="Twoje aktualne wypożyczenia" FontSize="16" Margin="0,0,0,10"/>
+                    <ListView x:Name="LstMyLoans" Height="300">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Tytuł" DisplayMemberBinding="{Binding Book.Title}" Width="250"/>
+                                <GridViewColumn Header="Data zwrotu" DisplayMemberBinding="{Binding EndDate}" Width="150"/>
+                                <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}" Width="100"/>
+                                <GridViewColumn Header="Pozostało dni" DisplayMemberBinding="{Binding DaysLeft}" Width="100"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </StackPanel>
+            </TabItem>
+
+            <!-- Zakładka: Zarezerwuj książkę -->
+            <TabItem Header="Zarezerwuj książkę">
+                <StackPanel>
+                    <TextBlock Text="Zarezerwuj książkę" FontSize="16" Margin="0,0,0,10"/>
+                    <ListView x:Name="LstUnavailableBooks" Height="300">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Tytuł" DisplayMemberBinding="{Binding Title}" Width="300"/>
+                                <GridViewColumn Header="Autor" DisplayMemberBinding="{Binding Author}" Width="200"/>
+                                <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}" Width="100"/>
+                                <GridViewColumn Header="Pozostało dni" DisplayMemberBinding="{Binding DaysToAvailable}" Width="150"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button Content="Zarezerwuj książkę" Click="BtnReserveBook_Click" Width="150" Margin="10"/>
+                </StackPanel>
+            </TabItem>
+
+            <!-- Zakładka: Moje rezerwacje -->
+            <TabItem Header="Moje rezerwacje">
+                <StackPanel>
+                    <TextBlock Text="Twoje rezerwacje" FontSize="16" Margin="0,0,0,10"/>
+                    <ListView x:Name="LstMyReservations" Height="300">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Tytuł" DisplayMemberBinding="{Binding Title}" Width="250"/>
+                                <GridViewColumn Header="Data rezerwacji" DisplayMemberBinding="{Binding ReservationDate}" Width="150"/>
+                                <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}" Width="100"/>
+                                <GridViewColumn Header="Pozycja w kolejce" DisplayMemberBinding="{Binding PositionInQueue}" Width="100"/>
+                                <GridViewColumn Header="Przewidywany czas dostępności" DisplayMemberBinding="{Binding EstimatedDays}" Width="200"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button Content="Usuń rezerwację" Click="BtnCancelReservation_Click" Width="150" Margin="10"/>
+                </StackPanel>
+            </TabItem>
+
+        </TabControl>
+        <Button Content="Wyloguj" Click="BtnLogout_Click" Width="149" HorizontalAlignment="Right" Margin="0,403,20,21"/>
+    </Grid>
+</Window>

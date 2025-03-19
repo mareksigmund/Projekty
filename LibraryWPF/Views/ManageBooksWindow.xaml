@@ -1,0 +1,40 @@
+﻿<Window x:Class="LibraryWPF.Views.ManageBooksWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:LibraryWPF.Helpers"
+        Title="Zarządzanie książkami" Height="500" Width="700">
+
+    <Window.Resources>
+        <local:PlaceholderConverter x:Key="PlaceholderConverter"/>
+    </Window.Resources>
+
+    <Grid>
+        <StackPanel>
+            <TextBlock Text="Zarządzanie książkami" FontSize="18" Margin="10"/>
+
+            <!-- Placeholder w TextBox -->
+            <Grid Margin="0,5,0,10" Width="400">
+                <TextBox x:Name="TxtSearch" TextChanged="TxtSearch_TextChanged"/>
+                <TextBlock Text="Wpisz tytuł lub autora..." 
+                           Foreground="Gray" 
+                           IsHitTestVisible="False" 
+                           Margin="5,2,0,0" 
+                           VerticalAlignment="Center"
+                           Visibility="{Binding Text, ElementName=TxtSearch, Converter={StaticResource PlaceholderConverter}}"/>
+            </Grid>
+
+            <ListView x:Name="LstBooks" Height="300" Margin="10" SelectionMode="Single" MouseDoubleClick="LstBooks_MouseDoubleClick">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Tytuł" DisplayMemberBinding="{Binding Title}" Width="250"/>
+                        <GridViewColumn Header="Autor" DisplayMemberBinding="{Binding Author}" Width="200"/>
+                        <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}" Width="150"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <Button Content="Edytuj zaznaczoną książkę" Click="BtnEditBook_Click" Width="200" Margin="10"/>
+            <Button Content="Odśwież listę" Click="BtnRefresh_Click" Width="200" Margin="10"/>
+        </StackPanel>
+    </Grid>
+</Window>
