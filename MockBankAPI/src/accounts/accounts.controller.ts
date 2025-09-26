@@ -1,6 +1,15 @@
-import { Body, Controller, Get, Post, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  Req,
+} from '@nestjs/common';
 import { AccountsService } from './accounts.service';
 import { CreateAccountDto } from './dto/create-account.dto';
+import { CloseAccountDto } from './dto/close-account.dto';
 
 @Controller('v1/accounts')
 export class AccountsController {
@@ -36,5 +45,21 @@ export class AccountsController {
     });
 
     return acc;
+  }
+
+  @HttpCode(204) // 204 No Content przy sukcesie
+  @Post(':accountId/close')
+  async close(
+    @Req() req: any,
+    @Param('accountId') accountId: string,
+    @Body() body: CloseAccountDto,
+  ) {
+    const uid: string = req.user.sub;
+    await this.accountsService.closeAccount({
+      userId: uid,
+      accountId,
+      confirmName: body.confirmName,
+      password: body.password,
+    });
   }
 }

@@ -1,7 +1,9 @@
+import * as argon2 from 'argon2';
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import { Model } from 'mongoose';
+import { MongoServerError } from 'mongodb';
 
 @Injectable()
 export class UsersService {
@@ -30,8 +32,8 @@ export class UsersService {
         fullName: created.fullName,
         createdAt: created.createdAt,
       };
-    } catch (err: any) {
-      if (err?.code === 11000) {
+    } catch (err: unknown) {
+      if (err instanceof MongoServerError && err.code === 11000) {
         throw new ConflictException('Email already registered');
       }
       throw err;
@@ -50,5 +52,21 @@ export class UsersService {
       { _id: userId },
       { $unset: { refreshTokenHash: 1 } },
     );
+  }
+
+  /**
+   * Sprawdza, czy podane hasło jest poprawne dla usera.
+   * Zwraca true/false (nie rzuca wyjątków).
+   */
+  async verifyPassword(userId: string, plain: string): Promise<boolean> {
+    const user = await this.userModel.findById(userId).lean();
+    // zakładam, że hash jest w polu "passwordHash"
+    if (!user?.passwordHash) return false;
+
+    try {
+      return await argon2.verify(user.passwordHash, plain);
+    } catch {
+      return false;
+    }
   }
 }
