@@ -1,0 +1,117 @@
+.add-note-card {
+  background-color: #e3f2fd;
+  padding: 2.5rem;
+  border-radius: 16px;
+  max-width: 720px;
+  margin: 3rem auto;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Nagłówek formularza */
+.add-note-card h3 {
+  font-size: 1.85rem;
+  font-weight: 600;
+  color: #0d47a1;
+  margin-bottom: 2rem;
+  text-align: center;
+  border-bottom: 2px solid #bbdefb;
+  padding-bottom: 0.6rem;
+  letter-spacing: -0.25px;
+}
+
+/* Formularz */
+.note-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 500;
+  margin-bottom: 0.35rem;
+  color: #0d47a1;
+  font-size: 0.95rem;
+}
+
+input[type="text"],
+textarea,
+select {
+  padding: 0.65rem 1rem;
+  border: 1px solid #90caf9;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  line-height: 1.4;
+}
+
+select {
+  height: 42px;
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center;
+  background-size: 1rem;
+  padding-right: 2rem;
+}
+
+input[type="text"]:focus,
+select:focus,
+textarea:focus {
+  border-color: #1976d2;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+}
+
+textarea {
+  min-height: 140px;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+button {
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background-color: #1976d2;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #1565c0;
+}
+
+.btn-secondary {
+  background-color: white;
+  color: #1976d2;
+  border: 1px solid #1976d2;
+}
+
+.btn-secondary:hover {
+  background-color: #cfe9fc;
+}

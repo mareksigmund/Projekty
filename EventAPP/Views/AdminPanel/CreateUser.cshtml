@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Stwórz użytkownika";
+}
+
+<div class="card shadow-lg p-4 mb-5 bg-white rounded">
+    <h2 class="text-center text-primary fw-bold">
+        <i class="bi bi-person-plus"></i> Stwórz użytkownika
+    </h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success text-center">
+            <i class="bi bi-check-circle"></i> @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger text-center">
+            <i class="bi bi-exclamation-triangle"></i> @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <form asp-action="CreateUser" method="post">
+        <div class="mb-3">
+            <label class="fw-bold">
+                <i class="bi bi-person"></i> Imię i nazwisko
+            </label>
+            <input type="text" name="name" class="form-control" placeholder="Wpisz imię i nazwisko" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="fw-bold">
+                <i class="bi bi-envelope"></i> Email
+            </label>
+            <input type="email" name="email" class="form-control" placeholder="Wpisz email" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="fw-bold">
+                <i class="bi bi-lock"></i> Hasło
+            </label>
+            <input type="password" name="password" class="form-control" placeholder="Wpisz hasło" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="fw-bold">
+                <i class="bi bi-person-badge"></i> Rola użytkownika
+            </label>
+            <select name="selectedRole" class="form-control" required>
+                @foreach (var role in ViewBag.Roles)
+                {
+                    <option value="@role">@role</option>
+                }
+            </select>
+        </div>
+
+        <div class="text-center mt-4 d-flex justify-content-center gap-2">
+            <button type="submit" class="btn btn-success d-flex align-items-center gap-1">
+                <i class="bi bi-check-circle"></i> Utwórz użytkownika
+            </button>
+
+            <a asp-action="Index" class="btn btn-secondary d-flex align-items-center gap-1">
+                <i class="bi bi-arrow-left-circle"></i> Powrót
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

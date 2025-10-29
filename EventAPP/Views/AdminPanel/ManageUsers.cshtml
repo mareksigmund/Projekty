@@ -1,0 +1,71 @@
+﻿@using EventApp.Enums
+@model IEnumerable<EventApp.Models.User>
+
+@{
+    ViewData["Title"] = "Zarządzanie użytkownikami";
+}
+
+<div class="card shadow-lg p-4 mb-5 bg-white rounded">
+    <h2 class="text-center text-primary fw-bold">
+        <i class="bi bi-people"></i> Zarządzanie użytkownikami
+    </h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success text-center">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <table class="table table-hover table-striped text-center">
+        <thead class="bg-primary text-white">
+            <tr>
+                <th><i class="bi bi-envelope"></i> Email</th>
+                <th><i class="bi bi-person-badge"></i> Rola</th>
+                <th><i class="bi bi-tools"></i> Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td class="align-middle">@user.Email</td>
+                    <td class="align-middle">
+                        @if (user.Role == UserRole.Admin)
+                        {
+                            <span class="badge bg-danger text-white">Admin</span>
+                        }
+                        else if (user.Role == UserRole.Organizer)
+                        {
+                            <span class="badge bg-info text-white">Organizer</span>
+                        }
+                        else if (user.Role == UserRole.Moderator)
+                        {
+                            <span class="badge bg-warning text-dark">Moderator</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary text-white">Użytkownik</span>
+                        }
+                    </td>
+
+                    <td class="align-middle">
+                        <div class="d-flex justify-content-center gap-2">
+                            <a asp-action="EditUserRole" asp-route-id="@user.Id"
+                               class="btn btn-warning btn-sm d-flex align-items-center gap-1">
+                                <i class="bi bi-pencil-square"></i> Edytuj
+                            </a>
+
+                            <form asp-action="DeleteUser" asp-route-id="@user.Id" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-danger btn-sm d-flex align-items-center gap-1"
+                                        onclick="return confirm('Czy na pewno chcesz usunąć tego użytkownika?')">
+                                    <i class="bi bi-trash"></i> Usuń
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

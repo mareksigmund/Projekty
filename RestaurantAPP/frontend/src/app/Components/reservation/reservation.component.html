@@ -1,0 +1,131 @@
+<!-- src/app/components/reservation/reservation.component.html -->
+<div *ngIf="restaurant" class="container mt-5">
+  <h2 *ngIf="!existingReservation" class="text-center mb-4 title">
+    Reservation for {{ restaurant.name }}
+  </h2>
+  <h2 *ngIf="existingReservation" class="text-center mb-4 title">
+    Your Reservation
+  </h2>
+
+  <!-- Adnotacja dla niezalogowanych użytkowników -->
+  <div *ngIf="!isLoggedIn" class="alert alert-warning">
+    <p>
+      Musisz być zalogowany, aby dokonać rezerwacji.
+      <a routerLink="/login" [queryParams]="{ returnUrl: router.url }"
+        >Zaloguj się</a
+      >
+    </p>
+  </div>
+
+  <!-- Formularz rezerwacji dla zalogowanych użytkowników -->
+  <div *ngIf="isLoggedIn && !existingReservation">
+    <form (ngSubmit)="submitReservation()">
+      <div class="mb-3">
+        <label for="date" class="form-label">Date</label>
+        <input
+          type="date"
+          id="date"
+          [(ngModel)]="reservation.date"
+          name="date"
+          class="form-control"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="time" class="form-label">Time</label>
+        <input
+          type="time"
+          id="time"
+          [(ngModel)]="reservation.time"
+          name="time"
+          class="form-control"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="seats" class="form-label">Seats</label>
+        <select
+          id="seats"
+          [(ngModel)]="reservation.seats"
+          name="seats"
+          class="form-control"
+          required
+        >
+          <option *ngFor="let table of availableTables" [value]="table.size">
+            Table for {{ table.size }} ({{ table.count }} available)
+          </option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary submit-btn">Submit</button>
+    </form>
+  </div>
+
+  <!-- Istniejąca rezerwacja -->
+  <div *ngIf="isLoggedIn && existingReservation">
+    <div class="reservation-details">
+      <p><strong>Date:</strong> {{ existingReservation.date | date }}</p>
+      <p><strong>Time:</strong> {{ existingReservation.time }}</p>
+      <p><strong>Seats:</strong> Table for {{ existingReservation.seats }}</p>
+      <button class="btn cancel-btn" (click)="cancelReservation()">
+        Cancel Reservation
+      </button>
+      <button class="btn edit-btn" (click)="editReservationMode = true">
+        Edit Reservation
+      </button>
+    </div>
+
+    <!-- Formularz edycji rezerwacji -->
+    <div *ngIf="editReservationMode">
+      <h2 class="text-center mb-4 title">
+        Edit Reservation for {{ restaurant.name }}
+      </h2>
+      <form (ngSubmit)="submitEditReservation()">
+        <div class="mb-3">
+          <label for="editDate" class="form-label">Date</label>
+          <input
+            type="date"
+            id="editDate"
+            [(ngModel)]="editReservation.date"
+            name="editDate"
+            class="form-control"
+            required
+            [min]="minDate"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="editTime" class="form-label">Time</label>
+          <input
+            type="time"
+            id="editTime"
+            [(ngModel)]="editReservation.time"
+            name="editTime"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="editSeats" class="form-label">Seats</label>
+          <select
+            id="editSeats"
+            [(ngModel)]="editReservation.seats"
+            name="editSeats"
+            class="form-control"
+            required
+          >
+            <option *ngFor="let table of availableTables" [value]="table.size">
+              Table for {{ table.size }} ({{ table.count }} available)
+            </option>
+          </select>
+        </div>
+        <button type="submit" class="btn save-btn">Save Changes</button>
+        <button
+          type="button"
+          class="btn cancel-btn"
+          (click)="editReservationMode = false"
+        >
+          Cancel
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

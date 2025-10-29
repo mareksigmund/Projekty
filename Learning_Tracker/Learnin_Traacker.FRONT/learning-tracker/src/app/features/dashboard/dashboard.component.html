@@ -1,0 +1,46 @@
+<div class="dashboard-grid">
+  <a
+    class="dashboard-card"
+    routerLink="/notes"
+    (mouseenter)="hoveredCard = 'notes'"
+    (mouseleave)="hoveredCard = null"
+  >
+    <mat-icon class="icon">note_alt</mat-icon>
+    <div class="label">Notatki</div>
+  </a>
+
+  <a
+    class="dashboard-card"
+    routerLink="/quiz"
+    (mouseenter)="hoveredCard = 'quiz'"
+    (mouseleave)="hoveredCard = null"
+  >
+    <mat-icon class="icon">quiz</mat-icon>
+    <div class="label">Quizy</div>
+  </a>
+
+  <a
+    class="dashboard-card"
+    routerLink="/dashboard/stats"
+    (mouseenter)="hoveredCard = 'stats'"
+    (mouseleave)="hoveredCard = null"
+  >
+    <mat-icon class="icon">bar_chart</mat-icon>
+    <div class="label">Statystyki</div>
+  </a>
+
+  <a
+    class="dashboard-card"
+    routerLink="/dashboard/account"
+    (mouseenter)="hoveredCard = 'account'"
+    (mouseleave)="hoveredCard = null"
+  >
+    <mat-icon class="icon">settings</mat-icon>
+    <div class="label">Konto</div>
+  </a>
+</div>
+
+<!-- Opis pod spodem -->
+<div class="dashboard-description" *ngIf="hoveredCard">
+  {{ descriptions[hoveredCard] }}
+</div>

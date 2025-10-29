@@ -1,0 +1,94 @@
+﻿@model EventApp.Models.Event
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">📋 Szczegóły wydarzenia</h2>
+
+    <div class="card shadow-lg p-4 bg-light rounded">
+        <div class="row">
+            <!-- Tytuł i data -->
+            <div class="col-md-6 mb-3">
+                <h5><i class="bi bi-fonts"></i> Tytuł</h5>
+                <p class="text-muted">@Model.Title</p>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <h5><i class="bi bi-calendar-event"></i> Data</h5>
+                <p class="text-muted">@Model.Date.ToString("dd.MM.yyyy HH:mm")</p>
+            </div>
+
+            <!-- Lokalizacja i organizator -->
+            <div class="col-md-6 mb-3">
+                <h5><i class="bi bi-geo-alt"></i> Miejsce</h5>
+                <p class="text-muted">@Model.Location</p>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <h5><i class="bi bi-person"></i> Organizator</h5>
+                <p class="text-muted">@Model.Organizer?.Email</p>
+            </div>
+
+            <!-- Status wydarzenia -->
+            <div class="col-md-6 mb-3">
+                <h5><i class="bi bi-flag"></i> Status wydarzenia</h5>
+                <p>
+                    @switch (Model.Status)
+                    {
+                        case EventApp.Enums.EventStatus.Planned:
+                            <span class="badge bg-success">🟢 Zaplanowane</span>
+                            break;
+                        case EventApp.Enums.EventStatus.Ongoing:
+                            <span class="badge bg-warning text-dark">🟡 W trakcie</span>
+                            break;
+                        case EventApp.Enums.EventStatus.Canceled:
+                            <span class="badge bg-danger">🔴 Odwołane</span>
+                            break;
+                        case EventApp.Enums.EventStatus.Completed:
+                            <span class="badge bg-primary">✅ Zakończone</span>
+                            break;
+                    }
+                </p>
+            </div>
+
+            <!-- Limit uczestników -->
+            <div class="col-md-6 mb-3">
+                <h5><i class="bi bi-person-check"></i> Wolne miejsca</h5>
+                <p class="text-muted">
+                    @(Model.MaxParticipants - Model.CurrentParticipants > 0
+                        ? $"{Model.MaxParticipants - Model.CurrentParticipants}"
+                        : "Brak miejsc")
+                </p>
+            </div>
+
+            <!-- Opis wydarzenia -->
+            <div class="col-md-12 mb-3">
+                <h5><i class="bi bi-card-text"></i> Opis</h5>
+                <p class="text-muted">@Model.Description</p>
+            </div>
+        </div>
+
+        <!-- Sekcja przycisków akcji -->
+        <div class="text-center mt-4 d-flex justify-content-center gap-2">
+            @if (User.IsInRole("Admin") || User.IsInRole("Organizer") && Model.OrganizerId == ViewBag.UserId)
+            {
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning d-flex align-items-center gap-1">
+                    <i class="bi bi-pencil-square"></i> Edytuj
+                </a>
+
+                <a asp-action="Delete" asp-route-id="@Model.Id"
+                   class="btn btn-danger d-flex align-items-center gap-1"
+                   onclick="return confirm('Czy na pewno chcesz usunąć to wydarzenie?')">
+                    <i class="bi bi-trash"></i> Usuń
+                </a>
+            }
+
+            <a asp-action="Index" class="btn btn-secondary d-flex align-items-center gap-1">
+                <i class="bi bi-arrow-left-circle"></i> Powrót
+            </a>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,41 @@
+﻿<Window x:Class="LibraryWPF.Views.BookSearchWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:LibraryWPF.Helpers"
+        Title="Księgarnia - Wyszukiwanie książek" Height="500" Width="600">
+
+    <Window.Resources>
+        <local:PlaceholderConverter x:Key="PlaceholderConverter"/>
+    </Window.Resources>
+
+    <Grid>
+        <StackPanel>
+            <TextBlock Text="Wyszukaj książkę" FontSize="16" Margin="10"/>
+
+            <!-- Placeholder dla TxtSearchQuery -->
+            <Grid Margin="0,5,0,10" Width="400">
+                <TextBox x:Name="TxtSearchQuery"/>
+                <TextBlock Text="Wpisz tytuł książki..." 
+                           Foreground="Gray" 
+                           IsHitTestVisible="False" 
+                           Margin="5,2,0,0" 
+                           VerticalAlignment="Center"
+                           Visibility="{Binding Text, ElementName=TxtSearchQuery, Converter={StaticResource PlaceholderConverter}}"/>
+            </Grid>
+
+            <Button Content="Szukaj" Click="BtnSearch_Click" Width="100" Margin="10"/>
+
+            <ListView x:Name="LstBooks" Height="300" Margin="10" MouseDoubleClick="LstBooks_DoubleClick">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Tytuł" DisplayMemberBinding="{Binding Title}" Width="250"/>
+                        <GridViewColumn Header="Autor" DisplayMemberBinding="{Binding Author}" Width="150"/>
+                        <GridViewColumn Header="ISBN" DisplayMemberBinding="{Binding ISBN}" Width="100"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <Button Content="Dodaj do biblioteki" Click="BtnAddBook_Click" Width="200" Margin="10"/>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,55 @@
+<section class="quiz-list-wrapper">
+  <h2>Wszystkie pytania quizowe</h2>
+
+  <div class="quiz-filter">
+    <label for="categorySelect">Kategoria:</label>
+    <select
+      id="categorySelect"
+      [(ngModel)]="selectedCategory"
+      (change)="filterQuestions()"
+    >
+      <option value="">Wszystkie</option>
+      <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+    </select>
+  </div>
+
+  <p class="quiz-count">
+    Znaleziono: <strong>{{ filteredQuestions.length }}</strong> pytań
+  </p>
+
+  <div *ngIf="filteredQuestions.length > 0; else noQuestions">
+    <div *ngFor="let q of paginatedQuestions" class="quiz-card">
+      <h3 class="quiz-question">{{ q.question }}</h3>
+
+      <ul class="quiz-answers">
+        <li *ngFor="let a of q.answers" class="answer-pill">{{ a }}</li>
+      </ul>
+
+      <div class="quiz-meta">
+        <span
+          ><strong>{{ q.category }}</strong></span
+        >
+        <span
+          >🧠 Źródło: <strong>{{ q.sourceType }}</strong></span
+        >
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noQuestions>
+    <p class="empty-msg">Brak pytań w wybranej kategorii.</p>
+  </ng-template>
+</section>
+
+<div class="pagination">
+  <button (click)="page = page - 1" [disabled]="page === 1">
+    ← Poprzednia
+  </button>
+  <span>Strona {{ page }}</span>
+  <button
+    (click)="page = page + 1"
+    [disabled]="page * pageSize >= filteredQuestions.length"
+  >
+    Następna →
+  </button>
+</div>

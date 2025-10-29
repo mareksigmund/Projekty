@@ -1,0 +1,27 @@
+﻿<Window x:Class="LibraryWPF.Views.AdminPanel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Panel Administratora" Height="400" Width="400">
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button Content="Wyloguj" Click="BtnLogout_Click" Margin="0,10,0,0"/>
+
+            <TextBlock Text="Dodaj użytkownika" FontSize="16" Margin="0,0,0,10" />
+
+            <TextBlock Text="Login:" />
+            <TextBox x:Name="TxtUsername" Width="200"/>
+
+            <TextBlock Text="Hasło:" />
+            <PasswordBox x:Name="TxtPassword" Width="200"/>
+
+            <TextBlock Text="Rola:" />
+            <ComboBox x:Name="CmbRole" Width="200">
+                <ComboBoxItem Content="Bibliotekarz"/>
+                <ComboBoxItem Content="Czytelnik"/>
+            </ComboBox>
+
+            <Button Content="Dodaj użytkownika" Click="BtnAddUser_Click" Margin="0,10,0,0"/>
+            
+        </StackPanel>
+    </Grid>
+</Window>

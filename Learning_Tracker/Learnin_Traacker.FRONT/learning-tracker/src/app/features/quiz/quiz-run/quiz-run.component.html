@@ -1,0 +1,48 @@
+<div
+  class="quiz-container"
+  *ngIf="!isLoading && !quizFinished; else resultOrLoading"
+>
+  <h2 class="quiz-title">{{ modeLabel }}</h2>
+  <p class="question-index">
+    Pytanie {{ currentQuestionIndex + 1 }} z {{ questions.length }}
+  </p>
+
+  <div class="question-card">
+    <h3 class="question-text">{{ currentQuestion.question }}</h3>
+    <p class="question-meta">
+      Źródło: <strong>{{ sourceLabel }}</strong>
+    </p>
+
+    <div class="answers">
+      <button
+        *ngFor="let answer of currentQuestion.answers"
+        (click)="selectAnswer(answer)"
+        class="answer-btn"
+      >
+        {{ answer }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #resultOrLoading>
+  <div class="quiz-result" *ngIf="quizFinished">
+    <h2>Twój wynik</h2>
+    <p>
+      Poprawne odpowiedzi: <strong>{{ score }}</strong> z {{ questions.length }}
+    </p>
+
+    <div class="quiz-nav-buttons">
+      <button class="home-btn outlined" (click)="goNotes()">← Notatki</button>
+      <button class="home-btn" (click)="goHome()">Dashboard →</button>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading && !quizFinished" class="loading-state">
+    Wczytywanie quizu...
+  </div>
+
+  <div *ngIf="errorMessage" class="warning">
+    {{ errorMessage }}
+  </div>
+</ng-template>

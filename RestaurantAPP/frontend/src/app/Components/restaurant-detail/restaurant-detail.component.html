@@ -1,0 +1,151 @@
+<!-- src/app/components/restaurant-detail/restaurant-detail.component.html -->
+<div *ngIf="restaurant" class="container mt-4">
+  <div class="row">
+    <div class="col-md-4">
+      <!-- Galeria zdjęć -->
+      <div class="image-gallery">
+        <img
+          [src]="mainImage"
+          alt="{{ restaurant.name }}"
+          class="img-fluid rounded main-image mb-2"
+        />
+        <div class="side-images d-flex">
+          <img
+            *ngFor="let image of sideImages"
+            [src]="image"
+            alt="{{ restaurant.name }}"
+            class="img-fluid rounded side-image me-2"
+            (click)="changeImage(image)"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8 text-center">
+      <h2 class="restaurant-name">{{ restaurant.name }}</h2>
+      <p class="restaurant-description">{{ restaurant.description }}</p>
+      <button class="btn btn-primary mb-4" (click)="openMenuModal(menuModal)">
+        MENU
+      </button>
+
+      <div class="table-icons d-flex justify-content-center">
+        <div *ngFor="let table of restaurant.tables" class="table-icon">
+          <mat-icon>table_restaurant</mat-icon>
+          <p>Rozmiar: {{ table.size }} - Liczba: {{ table.count }}</p>
+        </div>
+      </div>
+
+      <button
+        *ngIf="isLoggedIn"
+        class="btn make-reservation mt-3"
+        (click)="goToReservation()"
+      >
+        Make a Reservation
+      </button>
+
+      <p class="rating-section mt-4">
+        <strong>Ocena:</strong>
+        <span class="rating-value"
+          >Rating: {{ restaurant.rating | number : "1.0-2" }} ({{
+            restaurant.ratingCount
+          }}
+          reviews)</span
+        >
+      </p>
+
+      <div *ngIf="isLoggedIn && !submitted && !userRating" class="mt-4">
+        <h3>Oceń tę restaurację</h3>
+        <form (ngSubmit)="submitRating()">
+          <div class="mb-3">
+            <label for="rating" class="form-label">Ocena:</label>
+            <select
+              id="rating"
+              [(ngModel)]="rating"
+              name="rating"
+              class="form-select"
+              required
+            >
+              <option *ngFor="let star of [1, 2, 3, 4, 5]" [value]="star">
+                {{ star }}
+              </option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="comment" class="form-label">Komentarz:</label>
+            <textarea
+              id="comment"
+              [(ngModel)]="comment"
+              name="comment"
+              class="form-control"
+              rows="3"
+            ></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Wyślij ocenę</button>
+        </form>
+      </div>
+
+      <div *ngIf="submitted && userRating" class="alert alert-info mt-4">
+        <p>Już oceniłeś tę restaurację!</p>
+        <p><strong>Twoja ocena:</strong> {{ userRating.rating }}</p>
+        <p><strong>Twój komentarz:</strong> {{ userRating.comment }}</p>
+      </div>
+
+      <div *ngIf="submitted && !userRating" class="alert alert-success mt-4">
+        <p>Dziękujemy za Twoją ocenę!</p>
+      </div>
+
+      <div *ngIf="!isLoggedIn" class="alert alert-warning mt-4">
+        <p>
+          Musisz być zalogowany, aby ocenić tę restaurację.
+          <a routerLink="/login" [queryParams]="{ returnUrl: router.url }"
+            >Zaloguj się</a
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Karuzela z ocenami i komentarzami użytkowników -->
+  <div class="user-reviews mt-4">
+    <h3>Opinie użytkowników</h3>
+    <ngb-carousel *ngIf="userRatings.length > 0">
+      <ng-template ngbSlide *ngFor="let rating of userRatings">
+        <div class="user-rating-slide text-center">
+          <img [src]="rating.user.avatar" alt="Avatar" class="avatar" />
+          <p><strong>Ocena:</strong> {{ rating.rating }}</p>
+          <p><strong>Komentarz:</strong> {{ rating.comment }}</p>
+        </div>
+      </ng-template>
+    </ngb-carousel>
+  </div>
+
+  <!-- Modal do wyświetlania menu -->
+  <ng-template #menuModal let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title"></h5>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <ul class="list-group">
+        <li *ngFor="let item of restaurant.menu" class="list-group-item">
+          <strong>{{ item.name }}</strong> {{ item.description }} - ${{
+            item.price
+          }}
+        </li>
+      </ul>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="modal.dismiss('Cross click')"
+      >
+        Close
+      </button>
+    </div>
+  </ng-template>
+</div>

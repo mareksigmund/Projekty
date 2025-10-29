@@ -1,0 +1,150 @@
+.quiz-list-wrapper {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background-color: #e3f2fd;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  text-align: center;
+}
+
+.quiz-list-wrapper h2 {
+  font-size: 1.8rem;
+  color: #0d47a1;
+  margin-bottom: 1.2rem;
+}
+
+.quiz-filter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.quiz-filter select {
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #1976d2;
+  background-color: white;
+}
+
+.quiz-card {
+  background-color: #ffffff;
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 1.8rem;
+  border-radius: 10px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.04);
+  text-align: left;
+  animation: fadeIn 0.4s ease-in;
+}
+
+.quiz-card h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0d47a1;
+  margin-bottom: 1rem;
+}
+
+.quiz-answers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0.4rem 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.quiz-answers li {
+  background-color: #bbdefb;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  color: #0d47a1;
+}
+
+.quiz-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: #555;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.quiz-meta strong {
+  font-weight: 600;
+}
+
+.quiz-source {
+  display: flex;
+  align-items: center;
+  color: #b71c1c;
+  font-weight: 500;
+}
+
+.quiz-source i {
+  margin-right: 0.4rem;
+}
+
+.empty-msg {
+  margin-top: 2rem;
+  color: #777;
+  font-style: italic;
+}
+
+/* Animacja pojawiania się kart */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 600px) {
+  .quiz-meta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .quiz-list-wrapper {
+    padding: 1.5rem;
+  }
+
+  .quiz-answers {
+    flex-direction: column;
+  }
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  align-items: center;
+  font-weight: 500;
+}
+
+.pagination button {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #1976d2;
+  background-color: white;
+  color: #1976d2;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #cfe9fc;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

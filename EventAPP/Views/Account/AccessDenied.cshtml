@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Brak Dostępu";
+}
+
+<div class="card shadow-lg p-4 text-center mb-5 bg-white rounded">
+    <h2 class="text-danger fw-bold">
+        <i class="bi bi-exclamation-triangle"></i> Brak dostępu
+    </h2>
+
+    <p class="lead mt-3">
+        <i class="bi bi-shield-lock"></i> Przykro nam, ale nie masz uprawnień do przeglądania tej strony.
+    </p>
+
+    <div class="text-center mt-4">
+        <a asp-action="Index" asp-controller="Home" class="btn btn-primary">
+            <i class="bi bi-arrow-left"></i> Powrót do strony głównej
+        </a>
+    </div>
+</div>

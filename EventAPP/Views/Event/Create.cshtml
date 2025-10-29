@@ -1,0 +1,93 @@
+﻿@model EventApp.Models.Event
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">➕ Dodaj wydarzenie</h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <form asp-action="Create" method="post" class="bg-light p-4 rounded shadow-sm">
+        <div class="row">
+            <!-- Tytuł -->
+            <div class="col-md-6 mb-3">
+                <label for="Title" class="form-label">
+                    <i class="bi bi-fonts"></i> Tytuł
+                </label>
+                <input asp-for="Title" class="form-control" placeholder="Wpisz tytuł wydarzenia" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <!-- Data -->
+            <div class="col-md-6 mb-3">
+                <label for="Date" class="form-label">
+                    <i class="bi bi-calendar-event"></i> Data
+                </label>
+                <input asp-for="Date" type="datetime-local" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+
+            <!-- Lokalizacja -->
+            <div class="col-md-6 mb-3">
+                <label for="Location" class="form-label">
+                    <i class="bi bi-geo-alt"></i> Miejsce
+                </label>
+                <input asp-for="Location" class="form-control" placeholder="Podaj lokalizację" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+
+            <!-- Maksymalna liczba uczestników -->
+            <div class="col-md-6 mb-3">
+                <label for="MaxParticipants" class="form-label">
+                    <i class="bi bi-person-plus"></i> Maksymalna liczba uczestników
+                </label>
+                <input asp-for="MaxParticipants" type="number" min="1" class="form-control" placeholder="Podaj maksymalną liczbę uczestników" />
+                <span asp-validation-for="MaxParticipants" class="text-danger"></span>
+            </div>
+
+            <!-- Status wydarzenia -->
+            <div class="col-md-6 mb-3">
+                <label for="Status" class="form-label">
+                    <i class="bi bi-flag"></i> Status wydarzenia
+                </label>
+                <select asp-for="Status" class="form-select">
+                    <option value="@EventApp.Enums.EventStatus.Planned">🟢 Zaplanowane</option>
+                    <option value="@EventApp.Enums.EventStatus.Ongoing">🟡 W trakcie</option>
+                    <option value="@EventApp.Enums.EventStatus.Canceled">🔴 Odwołane</option>
+                    <option value="@EventApp.Enums.EventStatus.Completed">✅ Zakończone</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+
+            <!-- Opis -->
+            <div class="col-md-12 mb-3">
+                <label for="Description" class="form-label">
+                    <i class="bi bi-card-text"></i> Opis
+                </label>
+                <textarea asp-for="Description" class="form-control" rows="4" placeholder="Dodaj krótki opis wydarzenia"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+
+        <!-- Przycisk dodawania -->
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success btn-lg">
+                <i class="bi bi-check-circle"></i> Dodaj wydarzenie
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

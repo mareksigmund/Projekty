@@ -1,0 +1,48 @@
+﻿@model EventApp.Models.User
+
+@{
+    ViewData["Title"] = "Edycja roli użytkownika";
+}
+
+<div class="card shadow-lg p-4 mb-5 bg-white rounded">
+    <h2 class="text-center text-warning fw-bold">
+        <i class="bi bi-person-gear"></i> Edycja roli użytkownika
+    </h2>
+
+    <form asp-action="EditUserRole" method="post">
+        <input type="hidden" name="id" value="@Model.Id" />
+
+        <div class="mb-3">
+            <label class="fw-bold">
+                <i class="bi bi-envelope"></i> Email
+            </label>
+            <input type="text" class="form-control bg-light" value="@Model.Email" disabled />
+        </div>
+
+        <div class="mb-3">
+            <label class="fw-bold">
+                <i class="bi bi-person-badge"></i> Rola
+            </label>
+            <select name="selectedRole" class="form-control">
+                @foreach (var role in ViewBag.Roles)
+                {
+                    <option value="@role" selected="@(role == Model.Role.ToString())">@role</option>
+                }
+            </select>
+        </div>
+
+        <div class="text-center mt-4 d-flex justify-content-center gap-2">
+            <button type="submit" class="btn btn-success d-flex align-items-center gap-1">
+                <i class="bi bi-check-circle"></i> Zapisz zmiany
+            </button>
+
+            <a asp-action="ManageUsers" class="btn btn-secondary d-flex align-items-center gap-1">
+                <i class="bi bi-arrow-left-circle"></i> Anuluj
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

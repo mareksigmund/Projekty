@@ -1,0 +1,56 @@
+<section class="stats-wrapper">
+  <h2>Twoje statystyki quizów</h2>
+
+  <div *ngIf="isLoading" class="stats-loading">Ładowanie statystyk...</div>
+
+  <div *ngIf="error" class="stats-error">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!isLoading && !error && stats.length > 0" class="stats-grid">
+    <!-- Lewa kolumna: tabela + podsumowanie -->
+    <div class="stats-left">
+      <table class="stats-table">
+        <thead>
+          <tr>
+            <th>Kategoria</th>
+            <th>Liczba pytań</th>
+            <th>Poprawne</th>
+            <th>Skuteczność (%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let s of stats">
+            <td>{{ s.category }}</td>
+            <td>{{ s.total }}</td>
+            <td>{{ s.correct }}</td>
+            <td>{{ s.percent }}%</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="stats-summary">
+        <p><strong>Wszystkich pytań:</strong> {{ totalQuestions }}</p>
+        <p><strong>Poprawnych odpowiedzi:</strong> {{ totalCorrect }}</p>
+        <p><strong>Ogólna skuteczność:</strong> {{ overallPercent }}%</p>
+        <p><strong>Najlepsza kategoria:</strong> {{ bestCategory }}</p>
+        <p><strong>Najsłabsza kategoria:</strong> {{ worstCategory }}</p>
+      </div>
+    </div>
+
+    <!-- Prawa kolumna: wykres -->
+    <div class="stats-right">
+      <canvas
+        baseChart
+        [data]="{ labels: pieChartLabels, datasets: [{ data: pieChartData }] }"
+        [type]="pieChartType"
+        [options]="pieChartOptions"
+      >
+      </canvas>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading && !error && stats.length === 0" class="stats-empty">
+    Brak wyników quizów do wyświetlenia.
+  </div>
+</section>

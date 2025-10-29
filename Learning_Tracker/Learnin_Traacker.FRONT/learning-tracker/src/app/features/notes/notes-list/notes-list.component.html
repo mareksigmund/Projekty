@@ -1,0 +1,50 @@
+<h2 class="notes-title">Twoje notatki</h2>
+
+<div class="notes-toolbar">
+  <div class="filter-container">
+    <label for="categorySelect">Kategoria:</label>
+    <select
+      id="categorySelect"
+      [(ngModel)]="selectedCategory"
+      (change)="filterByCategory()"
+    >
+      <option *ngFor="let cat of categories" [value]="cat">
+        {{ cat }}
+      </option>
+    </select>
+  </div>
+
+  <button class="add-note-button" routerLink="/add-note">
+    + Dodaj notatkę
+  </button>
+</div>
+
+<div *ngIf="notes$ | async as notes; else brak" class="notes-grid">
+  <div *ngFor="let note of notes" class="note-card">
+    <h3 class="note-title">{{ note.title }}</h3>
+    <p class="note-snippet">
+      {{
+        note.content.length > 150
+          ? (note.content | slice : 0 : 150) + "…"
+          : note.content
+      }}
+    </p>
+    <p class="note-meta">
+      Kategoria: <strong>{{ note.category }}</strong>
+    </p>
+
+    <div class="note-actions">
+      <button class="note-btn" (click)="deleteNote(note.id)">Usuń</button>
+      <button class="note-btn" [routerLink]="['/edit-note', note.id]">
+        Edytuj
+      </button>
+      <button class="note-preview-btn" (click)="openPreview(note.id)">
+        Zobacz →
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #brak>
+  <p class="notes-empty">Brak notatek do wyświetlenia.</p>
+</ng-template>

@@ -1,0 +1,19 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Zapobiega poziomemu przewijaniu */
+}
+
+html, body {
+  height: 100%; /* Ensure the body and HTML elements take up the full height */
+}
+
+/* body {
+    background: url('/assets/restaurant-background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    position: relative;
+  } */

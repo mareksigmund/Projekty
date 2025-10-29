@@ -1,0 +1,65 @@
+﻿@model EventApp.Models.Event
+
+<div class="card shadow-lg p-4 mb-5 bg-white rounded">
+    <h2 class="text-center text-primary fw-bold">
+        <i class="bi bi-pencil-square"></i> Edytuj wydarzenie
+    </h2>
+
+    <form asp-action="Edit">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label class="fw-bold">
+                <i class="bi bi-type"></i> Tytuł
+            </label>
+            <input asp-for="Title" class="form-control" placeholder="Wpisz tytuł wydarzenia" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="fw-bold">
+                <i class="bi bi-file-text"></i> Opis
+            </label>
+            <textarea asp-for="Description" class="form-control" rows="3" placeholder="Dodaj krótki opis wydarzenia"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="fw-bold">
+                <i class="bi bi-calendar-event"></i> Data
+            </label>
+            <input asp-for="Date" type="datetime-local" class="form-control" />
+            <span asp-validation-for="Date" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="fw-bold">
+                <i class="bi bi-geo-alt"></i> Miejsce
+            </label>
+            <input asp-for="Location" class="form-control" placeholder="Podaj lokalizację" />
+            <span asp-validation-for="Location" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="fw-bold">
+                <i class="bi bi-people"></i> Maksymalna liczba uczestników
+            </label>
+            <input asp-for="MaxParticipants" type="number" min="1" class="form-control" placeholder="Podaj maksymalną liczbę uczestników" />
+            <span asp-validation-for="MaxParticipants" class="text-danger"></span>
+        </div>
+
+        <div class="text-center mt-4 d-flex justify-content-center gap-2">
+            <button type="submit" class="btn btn-success d-flex align-items-center gap-1">
+                <i class="bi bi-check-circle"></i> Zapisz zmiany
+            </button>
+
+            <a asp-action="Index" class="btn btn-secondary d-flex align-items-center gap-1">
+                <i class="bi bi-arrow-left-circle"></i> Powrót
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,138 @@
+﻿@model IEnumerable<EventApp.Models.Event>
+
+@{
+    ViewData["Title"] = "Panel Użytkownika";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center fw-bold text-primary">
+        <i class="bi bi-person"></i> Panel Użytkownika
+    </h2>
+
+    <p class="text-center text-muted">Zalogowany jako: <strong class="text-primary">@ViewBag.UserName</strong></p>
+    <p class="text-center text-muted">Rola: <strong class="text-success">@ViewBag.UserRole</strong></p>
+
+    <!-- Komunikaty -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success text-center">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger text-center">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <!-- Brak wydarzeń -->
+    @if (!Model.Any())
+    {
+        <p class="alert alert-info text-center">Nie jesteś jeszcze zapisany na żadne wydarzenie.</p>
+    }
+    else
+    {
+        <!-- Tabela z wydarzeniami -->
+        <div class="card shadow-lg p-4 mb-5 bg-white rounded">
+            <h3 class="text-center text-primary fw-bold">
+                <i class="bi bi-calendar-check"></i> Moje Wydarzenia
+            </h3>
+
+            <table class="table table-hover table-striped text-center mt-3">
+                <thead class="bg-primary text-white">
+                    <tr>
+                        <th>Tytuł</th>
+                        <th>Data</th>
+                        <th>Lokalizacja</th>
+                        <th>Status</th>
+                        <th>Wolne miejsca</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="align-middle">@item.Title</td>
+                            <td class="align-middle">@item.Date.ToString("dd.MM.yyyy HH:mm")</td>
+                            <td class="align-middle">@item.Location</td>
+                            <td class="align-middle">
+                                @if (item.Status == EventApp.Enums.EventStatus.Planned)
+                                {
+                                    <span class="badge bg-info text-white">Zaplanowane</span>
+                                }
+                                else if (item.Status == EventApp.Enums.EventStatus.Ongoing)
+                                {
+                                    <span class="badge bg-warning text-dark">W trakcie</span>
+                                }
+                                else if (item.Status == EventApp.Enums.EventStatus.Canceled)
+                                {
+                                    <span class="badge bg-danger text-white">Odwołane</span>
+                                }
+                                else if (item.Status == EventApp.Enums.EventStatus.Completed)
+                                {
+                                    <span class="badge bg-success text-white">Zakończone</span>
+                                }
+                            </td>
+                            <td class="align-middle">
+                                @(item.MaxParticipants - item.CurrentParticipants > 0
+                                    ? $"{item.MaxParticipants - item.CurrentParticipants}"
+                                    : "Brak miejsc")
+                            </td>
+                            <td class="align-middle">
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a class="btn btn-info btn-sm d-flex align-items-center gap-1"
+                                       asp-action="Details" asp-controller="Event" asp-route-id="@item.Id">
+                                        <i class="bi bi-info-circle"></i> Szczegóły
+                                    </a>
+
+                                    <form method="post" asp-action="CancelParticipation" asp-route-id="@item.Id" class="d-inline">
+                                        <button type="submit" class="btn btn-danger btn-sm d-flex align-items-center gap-1"
+                                                onclick="return confirm('Czy na pewno chcesz zrezygnować z tego wydarzenia?')">
+                                            <i class="bi bi-x-circle"></i> Zrezygnuj
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+    <!-- Powrót do strony głównej -->
+    <div class="text-center mt-4">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary btn-lg">
+            <i class="bi bi-house"></i> Powrót na stronę główną
+        </a>
+    </div>
+</div>
+
+<style>
+    .badge {
+        font-size: 0.9rem;
+        padding: 5px 12px;
+        border-radius: 15px;
+    }
+
+    .table th,
+    .table td {
+        vertical-align: middle;
+    }
+
+    .btn {
+        display: flex;
+        align-items: center;
+    }
+
+        .btn i {
+            margin-right: 5px;
+        }
+
+    .text-muted {
+        opacity: 0.9;
+    }
+</style>

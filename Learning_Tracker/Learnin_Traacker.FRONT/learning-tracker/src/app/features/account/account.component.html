@@ -1,0 +1,27 @@
+<section class="account-wrapper" *ngIf="user">
+  <h2>Twój profil</h2>
+
+  <div class="account-info">
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p>
+      <strong>Data rejestracji:</strong>
+      {{ user.registeredAt | date : "medium" }}
+    </p>
+  </div>
+
+  <form (ngSubmit)="updateName()" class="name-form">
+    <label for="displayName">Twój nick:</label>
+    <input
+      id="displayName"
+      type="text"
+      [(ngModel)]="displayName"
+      name="displayName"
+      required
+    />
+    <button type="submit">Zapisz</button>
+  </form>
+
+  <p class="status-message" *ngIf="status">{{ status }}</p>
+</section>
+
+<div *ngIf="!user" class="loading-state">Ładowanie danych użytkownika...</div>

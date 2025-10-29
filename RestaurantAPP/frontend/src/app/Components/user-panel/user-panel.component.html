@@ -1,0 +1,95 @@
+<div class="user-panel-container" *ngIf="user">
+  <div class="user-panel">
+    <div class="header">
+      <h2>User Panel</h2>
+    </div>
+    <div class="content">
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <p><strong>First Name:</strong> {{ user.firstName }}</p>
+        </div>
+        <div class="col-md-6">
+          <p><strong>Last Name:</strong> {{ user.lastName }}</p>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <p><strong>Email:</strong> {{ user.email }}</p>
+        </div>
+        <div class="col-md-6">
+          <p><strong>Phone:</strong> {{ user.phone }}</p>
+        </div>
+      </div>
+      <div *ngIf="user.address">
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <p><strong>Street:</strong> {{ user.address.street }}</p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>City:</strong> {{ user.address.city }}</p>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <p><strong>State:</strong> {{ user.address.state }}</p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Zip Code:</strong> {{ user.address.zip }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="text-center">
+        <img
+          (click)="changeVisibility()"
+          [src]="user.avatar"
+          alt="User Avatar"
+          class="img-fluid rounded-circle user-avatar mb-4"
+        />
+        <div *ngIf="isVisible" class="avatar-selection mt-4">
+          <h3>Select an Avatar</h3>
+          <div class="d-flex justify-content-center flex-wrap">
+            <div *ngFor="let avatar of avatars" class="avatar-item mx-2">
+              <img
+                [src]="avatar.url"
+                [alt]="avatar.description"
+                class="img-thumbnail rounded-circle avatar-option"
+                (click)="selectAvatar(avatar.url)"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reservations-section mt-5">
+        <h3>Your Reservations</h3>
+        <div *ngIf="reservations.length > 0; else noReservations">
+          <div class="carousel-container">
+            <div class="carousel">
+              <div
+                *ngFor="let reservation of reservations"
+                class="reservation-item"
+                [routerLink]="['/reservation', reservation.restaurantId._id]"
+              >
+                <div class="reservation-details">
+                  <p><strong>Date:</strong> {{ reservation.date | date }}</p>
+                  <p><strong>Time:</strong> {{ reservation.time }}</p>
+                  <p>
+                    <strong>Seats:</strong> Table for {{ reservation.seats }}
+                  </p>
+                  <p>
+                    <strong>Restaurant:</strong>
+                    {{ reservation.restaurantId.name }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <button class="carousel-button prev" (click)="prev()">‹</button>
+            <button class="carousel-button next" (click)="next()">›</button>
+          </div>
+        </div>
+        <ng-template #noReservations>
+          <p>No reservations found.</p>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

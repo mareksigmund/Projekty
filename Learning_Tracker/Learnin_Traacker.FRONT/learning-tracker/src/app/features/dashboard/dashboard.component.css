@@ -1,0 +1,83 @@
+.dashboard-title {
+  font-size: 2.2rem;
+  margin-bottom: 2.5rem;
+  text-align: center;
+  color: #0d47a1;
+  font-weight: 600;
+}
+
+.dashboard-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.dashboard-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #e8f1fb;
+  border-radius: 16px;
+  padding: 2rem;
+  width: 160px;
+  height: 160px;
+  text-decoration: none;
+  color: #0d47a1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  background-color: #bbdefb;
+}
+
+.icon {
+  font-family: "Material Icons";
+  font-size: 40px;
+  color: #1976d2;
+  margin-bottom: 0.6rem;
+  line-height: 1;
+  display: inline-block;
+  height: auto;
+  width: auto;
+}
+
+.label {
+  font-size: 1.05rem;
+  font-weight: 500;
+  text-align: center;
+  color: #0d47a1;
+  margin-top: 0.2rem;
+}
+
+.icon {
+  font-family: "Material Icons";
+  font-size: 48px;
+  line-height: 1;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #0d47a1;
+  margin-bottom: 0.8rem;
+}
+
+.dashboard-description {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 1.05rem;
+  color: #0d47a1;
+  background-color: #e3f2fd;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}

@@ -1,0 +1,58 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>{{ authService.modeLabel }}</h2>
+
+    <form #form="ngForm" (ngSubmit)="submit()" class="auth-form">
+      <input
+        type="email"
+        name="email"
+        [(ngModel)]="email"
+        placeholder="Email"
+        required
+        #emailField="ngModel"
+      />
+
+      <div *ngIf="emailField.invalid && emailField.touched" class="error-text">
+        Podaj poprawny adres e-mail.
+      </div>
+
+      <div class="password-wrapper">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          name="password"
+          [(ngModel)]="password"
+          placeholder="Hasło"
+          required
+          minlength="6"
+          #passwordField="ngModel"
+        />
+        <span
+          class="material-icons password-icon"
+          (click)="togglePasswordVisibility()"
+          title="Pokaż/Ukryj hasło"
+        >
+          {{ showPassword ? "visibility_off" : "visibility" }}
+        </span>
+      </div>
+
+      <div
+        *ngIf="passwordField.invalid && passwordField.touched"
+        class="error-text"
+      >
+        Hasło musi mieć co najmniej 6 znaków.
+      </div>
+
+      <button type="submit" [disabled]="form.invalid">
+        {{ authService.modeLabel }}
+      </button>
+    </form>
+
+    <p class="toggle-wrapper">
+      <button type="button" class="toggle-button" (click)="toggleMode()">
+        Przełącz na {{ authService.currentMode ? "rejestrację" : "logowanie" }}
+      </button>
+    </p>
+
+    <p *ngIf="error" class="error-text">{{ error }}</p>
+  </div>
+</div>

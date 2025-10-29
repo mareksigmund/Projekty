@@ -1,0 +1,103 @@
+﻿@using EventApp.Models
+@model IEnumerable<Participation>
+
+@{
+    ViewData["Title"] = "Zarządzanie zapisami";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">📋 Zarządzanie Zapisami</h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success text-center">
+            <i class="bi bi-check-circle"></i> @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger text-center">
+            <i class="bi bi-exclamation-circle"></i> @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped shadow-sm">
+            <thead class="table-primary text-center">
+                <tr>
+                    <th>📧 Użytkownik</th>
+                    <th>📅 Wydarzenie</th>
+                    <th>🕒 Data</th>
+                    <th>🛠️ Akcja</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@(item.User != null ? item.User.Email : "Brak danych")</td>
+                            <td>@(item.Event != null ? item.Event.Title : "Brak danych")</td>
+                            <td>@(item.Event != null ? item.Event.Date.ToString("dd.MM.yyyy HH:mm") : "Brak daty")</td>
+                            <td class="text-center">
+                                <form method="post" asp-action="RemoveParticipation" asp-route-id="@item.Id" class="d-inline">
+                                    <button type="submit" class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Czy na pewno chcesz usunąć ten zapis?')">
+                                        <i class="bi bi-trash"></i> Usuń
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4" class="text-center text-muted">
+                            Brak zapisów do wyświetlenia.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="text-center mt-4">
+        <a asp-action="Index" asp-controller="AdminPanel" class="btn btn-primary">
+            <i class="bi bi-arrow-left"></i> Wróć do Panelu Admina
+        </a>
+    </div>
+</div>
+
+<style>
+    .table th, .table td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .alert {
+        border-radius: 8px;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+    .btn-primary {
+        background-color: #0078FF;
+        border-color: #0078FF;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004999;
+        }
+</style>

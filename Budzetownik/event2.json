@@ -1,0 +1,16 @@
+{
+    "type": "transaction.created",
+    "id": "evt_ui_2",
+    "createdAt": "2025-09-14T10:00:00.000Z",
+    "data": {
+        "externalTxnId": "tx_ui_002",
+        "accountId": "acc_ui_001",
+        "amount": 19999,
+        "currency": "PLN",
+        "date": "2025-09-14T10:00:00.000Z",
+        "description": "Wynagrodzenie",
+        "counterparty": "Acme Sp. z o.o.",
+        "categoryHint": "salary",
+        "raw": { "source": "simulator" }
+    }
+}

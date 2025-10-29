@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Montserrat:wght@400;700&display=swap');
+
+.home-container {
+  padding: 20px;
+}
+
+.app-name {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 10px;
+  font-family: 'Lobster', cursive;
+}
+
+.hanging-ribbon-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.restaurant-card {
+  background-color: white;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform-style: preserve-3d;
+}
+
+.restaurant-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.card-image {
+  border-radius: 15px 15px 0 0;
+}
+
+.left-card .restaurant-card {
+  margin-top: 80px;
+}
+
+.center-card .restaurant-card {
+  margin-top: 40px;
+}
+
+.right-card .restaurant-card {
+  margin-top: 80px;
+}
+
+.text-warning {
+  color: #ffc107;
+}
+
+.text-secondary {
+  color: #6c757d;
+}
+
+.custom-button {
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 25px;
+  transition: background 0.3s, transform 0.3s;
+  width: 100%;
+}
+
+.custom-button:hover {
+  background: linear-gradient(135deg, #a777e3, #6e8efb);
+  transform: scale(1.05);
+}
+
+.buttons-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .custom-button {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  .buttons-row {
+    flex-direction: column;
+  }
+}
+
+.restaurant-card {
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.restaurant-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-image {
+  border-radius: 15px 15px 0 0;
+}
+
+.card-content {
+  padding: 15px;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.card-text {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.card-rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.card-rating fa-icon {
+  margin-right: 5px;
+}
+
+.card-button {
+  background-color: #6e8efb;
+  border: none;
+  border-radius: 25px;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.card-button:hover {
+  background-color: #a777e3;
+  transform: scale(1.05);
+}

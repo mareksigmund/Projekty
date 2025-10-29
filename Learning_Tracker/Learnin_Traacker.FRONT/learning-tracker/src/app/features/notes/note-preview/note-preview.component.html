@@ -1,0 +1,44 @@
+<div *ngIf="isLoading" class="note-loading">Wczytywanie notatki...</div>
+<div *ngIf="error" class="note-error">{{ error }}</div>
+
+<div *ngIf="note && !isLoading" class="note-preview">
+  <h2 class="note-title">{{ note.title }}</h2>
+
+  <div class="note-meta-block">
+    <span class="note-category"
+      >Kategoria: <strong>{{ note.category }}</strong></span
+    >
+    <span class="note-date">{{ note.createdAt | date : "medium" }}</span>
+  </div>
+
+  <p class="note-content">{{ note.content }}</p>
+
+  <div class="note-info-box">
+    <h4>📘 Dostępne tryby quizu:</h4>
+    <ul>
+      <li>
+        <strong>Quiz z AI</strong> – pytania generowane automatycznie na
+        podstawie tej notatki.
+      </li>
+      <li>
+        <strong>Quiz z bazy</strong> – pytania wcześniej zapisane przez
+        użytkowników z tej kategorii.
+      </li>
+      <li><strong>Quiz mieszany</strong> – połączenie pytań z AI i z bazy.</li>
+    </ul>
+  </div>
+
+  <div class="note-buttons">
+    <button class="note-btn primary" (click)="goToQuiz('ai')">Quiz z AI</button>
+    <button class="note-btn primary" (click)="goToQuiz('db')">
+      Quiz z bazy
+    </button>
+    <button class="note-btn primary" (click)="goToQuiz('mixed')">
+      Quiz mieszany
+    </button>
+  </div>
+
+  <div class="note-back">
+    <button class="note-btn" (click)="goBack()">← Powrót do listy</button>
+  </div>
+</div>

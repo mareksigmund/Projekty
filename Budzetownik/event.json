@@ -1,0 +1,11 @@
+{
+    "type": "transaction.created",
+    "data": {
+        "externalTxnId": "tx_demo_001",
+        "accountId": "acct_demo_1",
+        "amount": -1299,
+        "currency": "PLN",
+        "date": "2025-10-05T18:41:00Z",
+        "description": "Test po resecie"
+    }
+}

@@ -1,0 +1,49 @@
+<section class="edit-note-card">
+  <h3>Edytuj notatkę</h3>
+
+  <form (ngSubmit)="save()" *ngIf="noteLoaded; else loading" class="note-form">
+    <div class="form-group">
+      <label for="title">Tytuł:</label>
+      <input
+        id="title"
+        type="text"
+        [(ngModel)]="updateNote.title"
+        name="title"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="category">Kategoria:</label>
+      <input
+        id="category"
+        type="text"
+        [(ngModel)]="updateNote.category"
+        name="category"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="content">Treść notatki:</label>
+      <textarea
+        id="content"
+        [(ngModel)]="updateNote.content"
+        name="content"
+        rows="6"
+        required
+      ></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary">Zapisz zmiany</button>
+      <button type="button" class="btn-secondary" (click)="cancel()">
+        Anuluj
+      </button>
+    </div>
+  </form>
+
+  <ng-template #loading>
+    <p class="loading-text">Ładowanie danych notatki...</p>
+  </ng-template>
+</section>
