@@ -1,0 +1,242 @@
+/* auth-shell.scss */
+
+.auth-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: var(--ux-6) var(--ux-4);
+  background: color-mix(in srgb, var(--mat-sys-primary) 6%, var(--mat-sys-surface));
+}
+
+.auth-card {
+  --card-w: 780px;
+  --card-h: 480px;
+
+  position: relative;
+  width: min(var(--card-w), 92vw);
+  height: min(var(--card-h), 88vh);
+
+  border-radius: 24px;
+  background: color-mix(in srgb, var(--mat-sys-surface) 96%, var(--mat-sys-primary));
+  border: 1px solid color-mix(in srgb, var(--mat-sys-on-surface) 10%, transparent);
+  box-shadow: var(--ux-shadow-md);
+  overflow: hidden;
+
+  // płynniejsze przejścia na słabszych maszynach
+  transform: translateZ(0);
+}
+
+/* Gradient panel (przesuwany) */
+.auth-bg {
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 12px;
+
+  width: calc(50% - 18px);
+  border-radius: 18px;
+
+  background: linear-gradient(
+    45deg,
+    color-mix(in srgb, var(--mat-sys-primary) 88%, #000),
+    color-mix(in srgb, var(--mat-sys-tertiary) 78%, #000)
+  );
+
+  box-shadow: 0 18px 60px rgba(17, 24, 39, 0.18);
+
+  transform: translate3d(0, 0, 0);
+  transition: transform 650ms var(--ux-ease);
+  will-change: transform;
+}
+
+/* Lekki „glow” dla twistu (subtelnie) */
+.auth-card::after {
+  content: '';
+  position: absolute;
+  inset: -40px;
+  background: radial-gradient(
+    circle at 20% 30%,
+    color-mix(in srgb, var(--mat-sys-tertiary) 14%, transparent) 0%,
+    transparent 55%
+  );
+  pointer-events: none;
+}
+
+/* HERO (napisy na gradiencie) */
+.auth-hero {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+
+  width: 50%;
+  z-index: 3;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--ux-4);
+
+  padding: 0 var(--ux-6);
+  text-align: center;
+  color: #fff;
+
+  opacity: 0;
+  transform: translate3d(-14%, 0, 0);
+  pointer-events: none;
+
+  transition: opacity 650ms var(--ux-ease), transform 650ms var(--ux-ease);
+
+  h2 {
+    margin: 0;
+    font-size: 28px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    margin: 0;
+    opacity: 0.88;
+    line-height: 1.45;
+  }
+}
+
+.auth-hero--right {
+  left: 50%;
+  transform: translate3d(14%, 0, 0);
+}
+
+.hero-btn {
+  padding: 12px 38px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  background: transparent;
+  color: inherit;
+
+  font: var(--mat-sys-label-large);
+  letter-spacing: 0.08em;
+  cursor: pointer;
+
+  transition: background var(--ux-dur) var(--ux-ease), color var(--ux-dur) var(--ux-ease),
+    transform var(--ux-dur) var(--ux-ease);
+
+  &:hover {
+    background: #fff;
+    color: #0f172a;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+/* Panele formularzy */
+.auth-panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+
+  width: 50%;
+  z-index: 2;
+
+  display: grid;
+  align-content: center;
+
+  padding: var(--ux-6);
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition: opacity 650ms var(--ux-ease), transform 650ms var(--ux-ease);
+}
+
+.auth-panel--login {
+  transform: translate3d(12%, 0, 0);
+}
+
+.auth-panel--register {
+  left: 50%;
+  transform: translate3d(-12%, 0, 0);
+}
+
+/* TRYBY (sterowane klasą na .auth-card) */
+.auth-card.is-login {
+  .auth-bg {
+    transform: translate3d(100%, 0, 0);
+  }
+
+  .auth-hero--right {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    pointer-events: auto;
+  }
+
+  .auth-panel--login {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    pointer-events: auto;
+  }
+}
+
+.auth-card.is-register {
+  .auth-bg {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .auth-hero--left {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    pointer-events: auto;
+  }
+
+  .auth-panel--register {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    pointer-events: auto;
+  }
+}
+
+/* Responsywność: stacked (bez panelu 50/50) */
+@media (max-width: 820px) {
+  .auth-page {
+    padding: var(--ux-5) var(--ux-3);
+  }
+
+  .auth-card {
+    height: auto;
+    border-radius: 18px;
+  }
+
+  .auth-bg,
+  .auth-hero,
+  .auth-card::after {
+    display: none;
+  }
+
+  .auth-panel {
+    position: static;
+    width: 100%;
+    padding: var(--ux-5);
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+  }
+
+  .auth-card.is-login .auth-panel--register,
+  .auth-card.is-register .auth-panel--login {
+    display: none;
+  }
+}
+
+/* Preferencje dostępności: mniej animacji */
+@media (prefers-reduced-motion: reduce) {
+  .auth-bg,
+  .auth-hero,
+  .auth-panel,
+  .hero-btn {
+    transition: none !important;
+  }
+}

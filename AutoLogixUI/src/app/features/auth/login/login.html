@@ -1,0 +1,62 @@
+<div class="app-form app-form--login">
+  <header class="app-form__header">
+    <h1 class="app-form__title">Zaloguj się</h1>
+    <p class="app-form__subtitle">Zarządzaj historią serwisową i kosztami swoich pojazdów.</p>
+  </header>
+
+  <form class="app-form__body" [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        type="email"
+        inputmode="email"
+        formControlName="email"
+        autocomplete="email"
+        autocapitalize="none"
+        spellcheck="false"
+        placeholder="np. jan@firma.pl"
+        enterkeyhint="next"
+      />
+
+      @if (form.controls.email.touched && form.controls.email.invalid) {
+      <mat-error>
+        @if (form.controls.email.errors?.['required']) { Email jest wymagany } @else { Podaj
+        poprawny adres email }
+      </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Hasło</mat-label>
+      <input
+        matInput
+        type="password"
+        formControlName="password"
+        autocomplete="current-password"
+        placeholder="Twoje hasło"
+        enterkeyhint="go"
+      />
+
+      @if (form.controls.password.touched && form.controls.password.invalid) {
+      <mat-error>Hasło jest wymagane</mat-error>
+      }
+    </mat-form-field>
+
+    @if (error) {
+    <div class="app-form__message app-form__message--error" role="alert">
+      {{ error }}
+    </div>
+    }
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="loading || form.invalid">
+      @if (loading) { Logowanie... } @else { Zaloguj się }
+    </button>
+  </form>
+
+  <!-- tylko mobile (gdy auth-shell przechodzi w stacked) -->
+  <p class="auth-mobile-switch">
+    Nie masz konta?
+    <a href="/register" (click)="$event.preventDefault(); requestRegister.emit()">Utwórz konto</a>
+  </p>
+</div>

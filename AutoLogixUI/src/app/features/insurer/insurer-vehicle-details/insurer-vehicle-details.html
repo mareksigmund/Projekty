@@ -1,0 +1,124 @@
+@if (loading()) {
+<div class="page insurer-veh">
+  <div class="loading-block">
+    <div class="loader"></div>
+    <p class="loading-block__text">Ładowanie…</p>
+  </div>
+</div>
+} @else if (error()) {
+<div class="page insurer-veh">
+  <div class="card error">{{ error() }}</div>
+</div>
+} @else if (vehicle(); as v) {
+
+<div class="page insurer-veh">
+  <!-- HEADER -->
+  <div class="iv-header">
+    <div class="iv-head">
+      <h1 class="iv-title">{{ v.brand }} {{ v.model }}</h1>
+      <p class="iv-sub">
+        Rejestracja: <b>{{ v.registrationNumber }}</b>
+      </p>
+
+      <div class="iv-actions">
+        <a class="btn" routerLink="/app/insurer/offer-requests">← Prośby o ofertę</a>
+        <a class="btn" routerLink="/app/dashboard">Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- DANE POJAZDU -->
+  <div class="card">
+    <div class="card-title">Dane pojazdu</div>
+
+    <div class="iv-grid">
+      <div class="iv-kv">
+        <div class="iv-k">Rok</div>
+        <div class="iv-v">{{ v.year ?? '—' }}</div>
+      </div>
+
+      <div class="iv-kv">
+        <div class="iv-k">Przebieg</div>
+        <div class="iv-v">{{ v.mileage ?? '—' }} km</div>
+      </div>
+
+      <div class="iv-kv">
+        <div class="iv-k">Paliwo</div>
+        <div class="iv-v">{{ v.fuelType ?? '—' }}</div>
+      </div>
+
+      <div class="iv-kv">
+        <div class="iv-k">Moc</div>
+        <div class="iv-v">{{ v.enginePowerHp ?? '—' }} HP</div>
+      </div>
+
+      <div class="iv-kv">
+        <div class="iv-k">VIN</div>
+        <div class="iv-v iv-mono">{{ v.vin ?? '—' }}</div>
+      </div>
+
+      <div class="iv-kv">
+        <div class="iv-k">Pojemność</div>
+        <div class="iv-v">{{ v.engineCapacity ?? '—' }} cm³</div>
+      </div>
+
+      <div class="iv-kv">
+        <div class="iv-k">OC do</div>
+        <div class="iv-v">{{ asDate(v.insuranceOcDueDate) }}</div>
+      </div>
+
+      <div class="iv-kv">
+        <div class="iv-k">AC do</div>
+        <div class="iv-v">{{ asDate(v.insuranceAcDueDate) }}</div>
+      </div>
+
+      <div class="iv-kv iv-span-2">
+        <div class="iv-k">Zgoda na oferty</div>
+        <div class="iv-v">
+          <span class="iv-pill" [class.iv-pill--ok]="v.allowInsuranceOffers">
+            {{ v.allowInsuranceOffers ? 'TAK' : 'NIE' }}
+          </span>
+          <span class="muted iv-hint">
+            Ubezpieczyciel widzi pojazd tylko przy aktywnej zgodzie.
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERWISY -->
+  <div class="card">
+    <div class="card-title">Historia serwisowa</div>
+    <div class="muted iv-section-sub">Wpisy serwisowe powiązane z tym pojazdem.</div>
+
+    @if (servicesLoading()) {
+    <div class="loading-block" style="padding: 18px 0">
+      <div class="loader" style="--loader-size: 34px"></div>
+      <p class="loading-block__text">Ładowanie serwisów…</p>
+    </div>
+    } @else if (servicesError()) {
+    <div class="card error" style="margin-top: 12px">{{ servicesError() }}</div>
+    } @else if (services().length === 0) {
+    <div class="iv-empty">
+      <div class="iv-empty__title">Brak wpisów</div>
+      <div class="muted">Ten pojazd nie ma jeszcze historii serwisowej.</div>
+    </div>
+    } @else {
+    <ul class="list iv-list">
+      @for (s of services(); track s.id) {
+      <li class="list-item iv-item">
+        <div class="li-main">
+          <b>{{ s.title }}</b>
+          <div class="muted">
+            {{ asDate(s.serviceDate) }}
+            • przebieg: {{ s.mileageAtService ?? '—' }} km • koszt: {{ s.cost ?? '—' }} zł
+          </div>
+        </div>
+      </li>
+      }
+    </ul>
+    }
+  </div>
+</div>
+
+}

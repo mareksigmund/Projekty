@@ -1,0 +1,180 @@
+.vehicles {
+  display: grid;
+  gap: var(--ux-5);
+}
+
+/* header */
+.vehicles-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--ux-4);
+  flex-wrap: wrap;
+}
+
+.vehicles-title {
+  margin: 0;
+  font-size: 36px;
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+  font-weight: 780;
+  color: color-mix(in srgb, var(--mat-sys-on-surface) 92%, transparent);
+  position: relative;
+  display: inline-block;
+
+  &::after {
+    content: '';
+    display: block;
+    height: 10px;
+    margin-top: 8px;
+    border-radius: 999px;
+    width: 56%;
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--mat-sys-primary) 30%, transparent),
+      transparent
+    );
+    opacity: 0.85;
+  }
+}
+
+.vehicles-sub {
+  margin: 0;
+  max-width: 78ch;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--mat-sys-on-surface-variant) 82%, transparent);
+  font-size: 14px;
+}
+
+.vehicles-actions {
+  margin-top: var(--ux-3);
+  display: flex;
+  gap: var(--ux-3);
+  flex-wrap: wrap;
+  align-items: center;
+
+  .btn-refresh svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* states */
+.vehicles-state {
+  display: grid;
+  place-items: center;
+  gap: var(--ux-3);
+  padding: var(--ux-6) 0;
+}
+
+.vehicles-empty {
+  display: grid;
+  gap: 10px;
+  text-align: center;
+  padding: var(--ux-6);
+}
+
+.vehicles-empty__title {
+  font-size: 18px;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+}
+
+.vehicles-empty__actions {
+  margin-top: var(--ux-3);
+  display: flex;
+  justify-content: center;
+}
+
+/* table */
+.vehicles-table-card {
+  padding: 0; /* tabela ma własny padding */
+  overflow: hidden;
+}
+
+.vehicles-table-wrap {
+  padding: var(--ux-4);
+  overflow: auto;
+}
+
+.vehicles-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+:host ::ng-deep .vehicles-table thead th.mat-mdc-header-cell {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: color-mix(in srgb, var(--ui-muted) 86%, transparent);
+  font-weight: 750;
+  border-bottom: 1px solid var(--ui-border);
+  padding: 14px 12px;
+}
+
+:host ::ng-deep .vehicles-table tbody td.mat-mdc-cell {
+  padding: 14px 12px;
+  border-bottom: 1px solid color-mix(in srgb, var(--ui-border) 75%, transparent);
+  vertical-align: middle;
+}
+
+:host ::ng-deep .vehicles-table tbody tr:hover td.mat-mdc-cell {
+  background: color-mix(in srgb, var(--mat-sys-primary) 5%, transparent);
+}
+
+/* first column “vehicle” */
+.veh-main {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.veh-sub {
+  margin-top: 3px;
+  font-size: 12.5px;
+}
+
+.veh-reg {
+  font-weight: 750;
+}
+
+/* pill */
+.veh-pill {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid var(--ui-border);
+  background: color-mix(in srgb, var(--ui-surface) 92%, var(--mat-sys-primary));
+  font-weight: 750;
+  font-size: 12px;
+}
+
+.veh-pill--ok {
+  border-color: color-mix(in srgb, #22c55e 35%, transparent);
+  background: color-mix(in srgb, #22c55e 10%, var(--ui-surface));
+}
+
+/* action buttons in rows */
+.actions-col {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.btn.btn-sm {
+  height: 34px;
+  padding: 0 12px;
+  font-size: 13px;
+  box-shadow: none;
+
+  &:hover {
+    box-shadow: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .actions-col {
+    text-align: left;
+  }
+}

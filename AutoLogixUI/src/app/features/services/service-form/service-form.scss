@@ -1,0 +1,177 @@
+/* service entry form */
+
+.se {
+  display: grid;
+  gap: var(--ux-5);
+}
+
+/* header */
+.se-header {
+  display: grid;
+  gap: var(--ux-3);
+}
+
+.se-title {
+  margin: 0;
+  font-size: 34px;
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+
+  font-weight: 780;
+  color: color-mix(in srgb, var(--mat-sys-on-surface) 92%, transparent);
+
+  position: relative;
+  display: inline-block;
+
+  &::after {
+    content: '';
+    display: block;
+    height: 10px;
+    margin-top: 8px;
+    border-radius: 999px;
+    width: 56%;
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--mat-sys-primary) 30%, transparent),
+      transparent
+    );
+    opacity: 0.85;
+  }
+}
+
+.se-sub {
+  margin: 0;
+  max-width: 78ch;
+  line-height: 1.6;
+  font-size: 14px;
+  color: color-mix(in srgb, var(--mat-sys-on-surface-variant) 82%, transparent);
+}
+
+.se-actions {
+  margin-top: var(--ux-2);
+  display: flex;
+  gap: var(--ux-3);
+  flex-wrap: wrap;
+}
+
+/* vehicle info card */
+.se-veh {
+  padding: var(--ux-4);
+}
+
+.se-veh__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--ux-4);
+}
+
+.se-veh__k {
+  font-size: 12px;
+  font-weight: 650;
+  color: color-mix(in srgb, var(--ui-muted) 86%, transparent);
+}
+
+.se-veh__v {
+  margin-top: 4px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: color-mix(in srgb, var(--mat-sys-on-surface) 92%, transparent);
+}
+
+/* error */
+.se-error {
+  padding: var(--ux-4);
+}
+
+/* form */
+.se-form {
+  padding: var(--ux-5);
+}
+
+.se-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--ux-4);
+}
+
+.se-grid--next {
+  margin-top: var(--ux-3);
+}
+
+.se-field {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.se-span-2 {
+  grid-column: 1 / -1;
+}
+
+.se-label {
+  font-size: 13px;
+  font-weight: 650;
+  color: color-mix(in srgb, var(--ui-muted) 90%, transparent);
+}
+
+.se-req {
+  color: color-mix(in srgb, var(--mat-sys-primary) 80%, #000);
+  font-weight: 750;
+}
+
+.se-hint {
+  font-size: 12px;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--ui-muted) 86%, transparent);
+}
+
+.se-textarea {
+  height: auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  resize: vertical;
+}
+
+/* divider + section */
+.se-divider {
+  margin: var(--ux-4) 0;
+  height: 1px;
+  background: var(--ui-border);
+}
+
+.se-section__title {
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  color: color-mix(in srgb, var(--mat-sys-on-surface) 92%, transparent);
+}
+
+/* footer */
+.se-footer {
+  margin-top: var(--ux-5);
+  display: flex;
+  gap: var(--ux-3);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* responsive */
+@media (max-width: 920px) {
+  .se-veh__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .se-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .se-veh__grid {
+    grid-template-columns: 1fr;
+  }
+}
+:host ::ng-deep .btn.danger {
+  border-color: color-mix(in srgb, #ef4444 35%, transparent);
+  background: color-mix(in srgb, #ef4444 10%, var(--ui-surface));
+  color: color-mix(in srgb, #ef4444 80%, #000);
+}

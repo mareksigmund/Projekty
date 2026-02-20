@@ -1,0 +1,154 @@
+<div class="page io">
+  <!-- HEADER -->
+  <div class="io-header">
+    <div class="io-head">
+      <h1 class="io-title">Insurer • Moje oferty</h1>
+
+      <p class="io-sub">
+        Lista ofert wystawionych przez Ciebie (Insurer). Możesz filtrować po statusie i
+        (opcjonalnie) po <b>OfferRequestId</b>.
+      </p>
+
+      <div class="io-nav">
+        <a class="btn" routerLink="/app/insurer/offer-requests">← Prośby o ofertę</a>
+        <a class="btn" routerLink="/app/dashboard">Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="io-filters">
+    <label class="io-filter">
+      <span class="io-filter__label">Status</span>
+      <select class="ui-select" [value]="status()" (change)="setStatus($any($event.target).value)">
+        <option value="Proposed">Proposed</option>
+        <option value="Accepted">Accepted</option>
+        <option value="Rejected">Rejected</option>
+        <option value="Expired">Expired</option>
+        <option value="ALL">Wszystkie</option>
+      </select>
+    </label>
+
+    @if (offerRequestIdFilter()) {
+    <div class="io-chip" title="Aktywny filtr OfferRequestId">
+      <span class="io-chip__label">OfferRequestId</span>
+      <code class="io-chip__value">{{ offerRequestIdFilter() }}</code>
+
+      <button type="button" class="io-chip__clear btn" (click)="clearRequestFilter()">
+        Wyczyść
+      </button>
+    </div>
+    }
+
+    <button
+      type="button"
+      class="btn btn-refresh btn-refresh--icon io-refresh"
+      (click)="load()"
+      aria-label="Odśwież"
+      title="Odśwież"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true">
+        <path
+          d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"
+        ></path>
+        <path
+          fill-rule="evenodd"
+          d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"
+        ></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- STATES -->
+  @if (loading()) {
+  <div class="loading-block">
+    <div class="loader"></div>
+    <p class="loading-block__text">Ładowanie…</p>
+  </div>
+  } @else if (error()) {
+  <div class="card error">{{ error() }}</div>
+  } @else if (items().length === 0) {
+  <div class="card io-empty">
+    <div class="io-empty__title">Brak ofert</div>
+    <div class="muted">Nie znaleziono ofert dla wybranego filtra.</div>
+  </div>
+  } @else {
+
+  <!-- LIST -->
+  <div class="io-list">
+    @for (o of items(); track o.id) {
+    <div class="card io-item">
+      <div class="io-item__top">
+        <div class="io-item__left">
+          <div class="io-item__title">
+            <b>{{ o.type }}</b>
+
+            <span class="io-status" [attr.data-status]="o.status">
+              {{ statusBadgeText(o.status) }}
+            </span>
+          </div>
+
+          <div class="muted io-item__meta">
+            Cena: <b>{{ o.price }}</b>
+            <span class="io-sep">•</span>
+            Ważna: <b>{{ asDate(o.validFrom) }}</b> → <b>{{ asDate(o.validTo) }}</b>
+          </div>
+
+          <div class="muted io-item__veh">
+            Pojazd:
+            <a class="io-veh-link" [routerLink]="['/app/insurer/vehicles', o.vehicleId]">
+              {{ vehicleLabelById(o.vehicleId) }}
+            </a>
+          </div>
+
+          @if (o.offerRequestId) {
+          <div class="io-req">
+            <span class="io-req__label">Request</span>
+            <code class="io-req__value">{{ o.offerRequestId }}</code>
+          </div>
+          } @if (o.description) {
+          <div class="io-desc">
+            <span class="io-desc__label">Opis</span>
+            <span class="io-desc__text">{{ o.description }}</span>
+          </div>
+          }
+        </div>
+
+        <div class="io-item__right">
+          <a
+            class="vehicle-icon-link"
+            [routerLink]="['/app/insurer/vehicles', o.vehicleId]"
+            aria-label="Szczegóły pojazdu"
+            title="Szczegóły pojazdu"
+          >
+            <svg viewBox="0 0 324.018 324.017" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M317.833,197.111c3.346-11.148,2.455-20.541-2.65-27.945c-9.715-14.064-31.308-15.864-35.43-16.076l-8.077-4.352
+                l-0.528-0.217c-8.969-2.561-42.745-3.591-47.805-3.733c-7.979-3.936-14.607-7.62-20.475-10.879
+                c-20.536-11.413-34.107-18.958-72.959-18.958c-47.049,0-85.447,20.395-90.597,23.25c-2.812,0.212-5.297,0.404-7.646,0.59
+                l-6.455-8.733l7.34,0.774c2.91,0.306,4.267-1.243,3.031-3.459c-1.24-2.216-4.603-4.262-7.519-4.57l-23.951-2.524
+                c-2.91-0.305-4.267,1.243-3.026,3.459c1.24,2.216,4.603,4.262,7.519,4.57l3.679,0.386l8.166,11.05
+                c-13.823,1.315-13.823,2.139-13.823,4.371c0,18.331-2.343,22.556-2.832,23.369L0,164.443v19.019l2.248,2.89
+                c-0.088,2.775,0.823,5.323,2.674,7.431c5.981,6.804,19.713,7.001,21.256,7.001
+                c4.634,0,14.211-2.366,20.78-4.153c-0.456-0.781-0.927-1.553-1.3-2.392
+                c-0.36-0.809-0.603-1.668-0.885-2.517c-0.811-2.485-1.362-5.096-1.362-7.845
+                c0-14.074,11.449-25.516,25.515-25.516s25.52,11.446,25.52,25.521
+                c0,6.068-2.221,11.578-5.773,15.964c-0.753,0.927-1.527,1.828-2.397,2.641
+                c-1.022,0.958-2.089,1.859-3.254,2.641c29.332,0.109,112.164,0.514,168.708,1.771
+                c-0.828-0.823-1.533-1.771-2.237-2.703c-0.652-0.854-1.222-1.75-1.761-2.688
+                c-2.164-3.744-3.5-8.025-3.5-12.655c0-14.069,11.454-25.513,25.518-25.513
+                c14.064,0,25.518,11.449,25.518,25.513c0,5.126-1.553,9.875-4.152,13.878
+                c-0.605,0.922-1.326,1.755-2.04,2.594c-0.782,0.922-1.616,1.781-2.527,2.584
+                c5.209,0.155,9.699,0.232,13.546,0.232c19.563,0,23.385-1.688,23.861-5.018
+                C324.114,202.108,324.472,199.602,317.833,197.111z"
+              />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+  }
+</div>

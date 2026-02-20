@@ -1,0 +1,135 @@
+<div class="page ion">
+  <!-- HEADER -->
+  <div class="ion-header">
+    <div class="ion-head">
+      <h1 class="ion-title">Insurer • Wystaw ofertę</h1>
+
+      <p class="ion-sub">
+        Jeśli odpowiadasz na request – oferta będzie powiązana z requestem i pojazdem automatycznie.
+      </p>
+
+      <div class="ion-nav">
+        <a class="btn" routerLink="/app/insurer/offer-requests">← Prośby o ofertę</a>
+        <a class="btn" routerLink="/app/dashboard">Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FROM REQUEST: SUMMARY -->
+  @if (isFromRequest()) {
+  <div class="card ion-context">
+    <div class="ion-context__top">
+      <div class="ion-context__row">
+        <span class="ion-context__label">Request</span>
+        <code class="ion-context__code">{{ offerRequestId() }}</code>
+      </div>
+
+      <div class="ion-context__row">
+        <span class="ion-context__label">Pojazd</span>
+        <span class="ion-context__veh"
+          ><b>{{ vehicleLabelFromRequest() }}</b></span
+        >
+      </div>
+    </div>
+
+    @if (vehicle()) {
+    <div class="ion-context__meta">
+      <div class="muted">
+        Rok: <b>{{ vehicle()!.year ?? '—' }}</b>
+        <span class="ion-sep">•</span>
+        Przebieg: <b>{{ vehicle()!.mileage ?? '—' }}</b> km
+      </div>
+      <div class="muted">
+        VIN: <b>{{ vehicle()!.vin ?? '—' }}</b>
+      </div>
+    </div>
+    }
+  </div>
+  }
+
+  <!-- FORM -->
+  <div class="card ion-form-card">
+    <form class="ion-form" [formGroup]="form" (ngSubmit)="submit()">
+      <div class="ion-grid">
+        <!-- Bez requestu: pola identyfikacyjne -->
+        @if (!isFromRequest()) {
+        <label class="ion-field">
+          <span class="ion-field__label"
+            >OfferRequestId <span class="muted">(opcjonalnie)</span></span
+          >
+          <input
+            class="ui-input"
+            type="text"
+            formControlName="offerRequestId"
+            placeholder="np. 3f1a..."
+          />
+          <span class="ion-hint muted">
+            Jeśli podasz, oferta będzie łatwiej powiązana z requestem.
+          </span>
+        </label>
+
+        <label class="ion-field">
+          <span class="ion-field__label">VehicleId <span class="muted">(opcjonalnie)</span></span>
+          <input
+            class="ui-input"
+            type="text"
+            formControlName="vehicleId"
+            placeholder="np. 9c12..."
+          />
+          <span class="ion-hint muted"> Użyj tylko jeśli tworzysz ofertę bez requestu. </span>
+        </label>
+        }
+
+        <label class="ion-field">
+          <span class="ion-field__label">Typ <span class="ion-required">*</span></span>
+          <select class="ui-select" formControlName="type">
+            <option value="OC">OC</option>
+            <option value="AC">AC</option>
+            <option value="OC_AC">OC+AC</option>
+          </select>
+
+          @if (isFromRequest()) {
+          <span class="ion-hint ion-hint--lock"> Typ jest zablokowany — wynika z requestu. </span>
+          }
+        </label>
+
+        <label class="ion-field">
+          <span class="ion-field__label">Cena <span class="ion-required">*</span></span>
+          <input class="ui-input" type="number" step="0.01" min="0.01" formControlName="price" />
+        </label>
+
+        <label class="ion-field">
+          <span class="ion-field__label">Ważna od <span class="ion-required">*</span></span>
+          <input class="ui-input" type="date" formControlName="validFrom" />
+        </label>
+
+        <label class="ion-field">
+          <span class="ion-field__label">Ważna do <span class="ion-required">*</span></span>
+          <input class="ui-input" type="date" formControlName="validTo" />
+        </label>
+
+        <label class="ion-field ion-span-2">
+          <span class="ion-field__label">Opis <span class="muted">(opcjonalnie)</span></span>
+          <textarea class="ui-input ion-textarea" rows="5" formControlName="description"></textarea>
+          <span class="ion-hint muted">
+            Krótko opisz warunki, zniżki, zakres (OC/AC), ograniczenia itd.
+          </span>
+        </label>
+      </div>
+
+      @if (error()) {
+      <div class="ion-error">
+        {{ error() }}
+      </div>
+      }
+
+      <div class="ion-actions">
+        <a class="btn" routerLink="/app/insurer/offer-requests">Anuluj</a>
+
+        <button type="submit" class="btn primary" [disabled]="loading() || form.invalid">
+          @if (loading()) { Zapisywanie... } @else { Wystaw ofertę }
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

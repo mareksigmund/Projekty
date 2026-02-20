@@ -1,0 +1,225 @@
+.ior {
+  display: grid;
+  gap: var(--ux-5);
+}
+
+/* header */
+.ior-header {
+  display: grid;
+  gap: var(--ux-3);
+}
+
+.ior-title {
+  margin: 0;
+  font-size: 36px;
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+  font-weight: 780;
+  color: color-mix(in srgb, var(--mat-sys-on-surface) 92%, transparent);
+  position: relative;
+  display: inline-block;
+
+  &::after {
+    content: '';
+    display: block;
+    height: 10px;
+    margin-top: 8px;
+    border-radius: 999px;
+    width: 56%;
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--mat-sys-primary) 30%, transparent),
+      transparent
+    );
+    opacity: 0.85;
+  }
+}
+
+.ior-sub {
+  margin: 0;
+  max-width: 78ch;
+  line-height: 1.6;
+  font-size: 14px;
+  color: color-mix(in srgb, var(--mat-sys-on-surface-variant) 82%, transparent);
+}
+
+.ior-nav {
+  margin-top: var(--ux-3);
+  display: flex;
+  gap: var(--ux-3);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* filters */
+.ior-filters {
+  display: flex;
+  gap: var(--ux-3);
+  align-items: end;
+  flex-wrap: wrap;
+}
+
+.ior-filter {
+  display: grid;
+  gap: 6px;
+}
+
+.ior-filter__label {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ui-muted) 86%, transparent);
+  font-weight: 800;
+}
+
+.ior-empty {
+  text-align: center;
+  padding: var(--ux-6);
+}
+
+.ior-empty__title {
+  font-weight: 850;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+
+/* list */
+.ior-list {
+  display: grid;
+  gap: var(--ux-4); /* oddech między kartami */
+}
+
+.ior-item {
+  padding: var(--ux-5);
+}
+
+.ior-item__top {
+  display: flex;
+  gap: var(--ux-4);
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.ior-item__left {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.ior-item__title {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+
+  b {
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+}
+
+.ior-status {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid var(--ui-border);
+  background: color-mix(in srgb, var(--ui-surface) 92%, var(--mat-sys-primary));
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.ior-status--open {
+  border-color: color-mix(in srgb, #22c55e 35%, transparent);
+  background: color-mix(in srgb, #22c55e 10%, var(--ui-surface));
+}
+
+.ior-item__meta {
+  font-size: 13px;
+}
+
+.ior-msg {
+  border-left: 3px solid color-mix(in srgb, var(--mat-sys-primary) 40%, transparent);
+  padding-left: 10px;
+  display: grid;
+  gap: 2px;
+}
+
+.ior-msg__label {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 850;
+  color: color-mix(in srgb, var(--ui-muted) 88%, transparent);
+}
+
+.ior-msg__text {
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.ior-item__right {
+  flex: 0 0 auto;
+}
+
+/* reuse your vehicle icon link idea */
+.vehicle-icon-link {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--mat-sys-primary) 18%, transparent);
+  background: color-mix(in srgb, var(--ui-surface) 92%, var(--mat-sys-primary));
+  transition: transform var(--ux-dur-fast) var(--ux-ease),
+    border-color var(--ux-dur-fast) var(--ux-ease);
+
+  svg {
+    width: 22px;
+    height: 22px;
+    fill: color-mix(in srgb, var(--mat-sys-on-surface) 70%, transparent);
+    transition: fill var(--ux-dur-fast) var(--ux-ease);
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--mat-sys-primary) 30%, transparent);
+
+    svg {
+      fill: color-mix(in srgb, var(--mat-sys-primary) 72%, transparent);
+    }
+  }
+}
+
+.ior-item__actions {
+  margin-top: var(--ux-4);
+  padding-top: var(--ux-3);
+  border-top: 1px solid var(--ui-border);
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: var(--ux-3);
+}
+
+.ior-closed {
+  font-size: 13px;
+  font-weight: 650;
+}
+
+/* responsive */
+@media (max-width: 720px) {
+  .ior-item__top {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ior-item__actions {
+    justify-content: center;
+  }
+
+  .ior-filters {
+    justify-content: center;
+  }
+}

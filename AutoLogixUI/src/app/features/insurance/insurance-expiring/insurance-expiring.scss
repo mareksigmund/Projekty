@@ -1,0 +1,222 @@
+.exp {
+  display: grid;
+  gap: var(--ux-5);
+}
+
+.exp-header {
+  display: grid;
+  gap: var(--ux-2);
+}
+
+.exp-title {
+  margin: 0;
+  font-size: 36px;
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+  font-weight: 780;
+  color: color-mix(in srgb, var(--mat-sys-on-surface) 92%, transparent);
+  position: relative;
+  display: inline-block;
+
+  &::after {
+    content: '';
+    display: block;
+    height: 10px;
+    margin-top: 8px;
+    border-radius: 999px;
+    width: 42%;
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--mat-sys-primary) 30%, transparent),
+      transparent
+    );
+    opacity: 0.85;
+  }
+}
+
+.exp-sub {
+  margin: 0;
+  max-width: 80ch;
+  line-height: 1.6;
+  font-size: 14px;
+  color: color-mix(in srgb, var(--mat-sys-on-surface-variant) 82%, transparent);
+}
+
+.exp-actions {
+  margin-top: var(--ux-2);
+  display: flex;
+  gap: var(--ux-3);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.exp-filters {
+  display: flex;
+  gap: var(--ux-4);
+  flex-wrap: wrap;
+  align-items: flex-end;
+
+  .exp-refresh {
+    margin-left: auto;
+  }
+}
+
+.exp-filter {
+  display: grid;
+  gap: 6px;
+
+  .exp-filter__label {
+    font-size: 13px;
+    font-weight: 650;
+    color: color-mix(in srgb, var(--ui-muted) 88%, transparent);
+  }
+
+  .ui-select {
+    min-width: 220px;
+  }
+}
+
+.exp-list {
+  display: grid;
+  gap: var(--ux-4);
+}
+
+.exp-item {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--ux-4);
+  align-items: center;
+
+  padding: var(--ux-5);
+}
+
+.exp-item__main {
+  display: grid;
+  gap: var(--ux-3);
+  min-width: 0;
+}
+
+.exp-item__title {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: baseline;
+
+  b {
+    font-weight: 780;
+  }
+}
+
+.exp-item__reg {
+  color: color-mix(in srgb, var(--ui-muted) 88%, transparent);
+  font-size: 13px;
+}
+
+.exp-item__dates {
+  display: grid;
+  gap: 10px;
+}
+
+.exp-line {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.exp-badge {
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 750;
+  border: 1px solid var(--ui-border);
+  background: var(--ui-surface);
+}
+
+.exp-badge--oc {
+  border-color: color-mix(in srgb, var(--mat-sys-primary) 30%, transparent);
+  background: color-mix(in srgb, var(--mat-sys-primary) 10%, var(--ui-surface));
+}
+
+.exp-badge--ac {
+  border-color: color-mix(in srgb, #22c55e 35%, transparent);
+  background: color-mix(in srgb, #22c55e 10%, var(--ui-surface));
+}
+
+.exp-date {
+  font-weight: 650;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.exp-days {
+  font-size: 13px;
+  font-weight: 650;
+  color: color-mix(in srgb, var(--mat-sys-on-surface) 86%, transparent);
+}
+
+.exp-empty {
+  display: grid;
+  gap: 6px;
+}
+
+.exp-empty__title {
+  font-size: 16px;
+  font-weight: 780;
+}
+
+/* ikonka pojazdu – identyczna jak w ofertach */
+.vehicle-icon-link {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid color-mix(in srgb, var(--mat-sys-primary) 22%, transparent);
+  background: color-mix(in srgb, var(--ui-surface) 94%, var(--mat-sys-primary));
+
+  transition: transform var(--ux-dur-fast) var(--ux-ease),
+    background var(--ux-dur-fast) var(--ux-ease), border-color var(--ux-dur-fast) var(--ux-ease);
+
+  svg {
+    width: 22px;
+    height: 22px;
+    fill: color-mix(in srgb, var(--mat-sys-primary) 78%, #000);
+    transition: fill 0.2s ease;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--mat-sys-primary) 45%, transparent);
+    background: color-mix(in srgb, var(--mat-sys-primary) 20%, var(--ui-surface));
+
+    svg {
+      fill: var(--mat-sys-primary);
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 720px) {
+  .exp-filter .ui-select {
+    min-width: 180px;
+  }
+
+  .exp-filters .exp-refresh {
+    margin-left: 0;
+  }
+
+  .exp-item {
+    align-items: flex-start;
+  }
+}

@@ -1,0 +1,42 @@
+/* register.scss */
+
+:host .app-form.app-form--register {
+  .app-form__header {
+    text-align: center;
+    justify-items: center;
+    gap: var(--ux-2);
+  }
+
+  .app-form__title {
+    font-size: 32px;
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+    font-weight: 760;
+  }
+
+  .app-form__subtitle {
+    margin: 0 auto;
+    max-width: 44ch;
+    line-height: 1.55;
+
+    color: color-mix(in srgb, var(--mat-sys-on-surface-variant) 78%, var(--mat-sys-on-surface) 22%);
+    opacity: 0.95;
+  }
+
+  /* komunikaty wyśrodkowane */
+  .app-form__message {
+    text-align: center;
+  }
+
+  /* rząd (imię/nazwisko) – optycznie ładniej */
+  .app-form__row {
+    gap: var(--ux-4);
+  }
+}
+
+/* jeśli robi się ciasno, szybciej przejście na 1 kolumnę */
+@media (max-width: 520px) {
+  :host .app-form.app-form--register .app-form__row {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,235 @@
+.offer-requests {
+  display: grid;
+  gap: var(--ux-4);
+}
+
+/* prosty toolbar (bez karty) */
+.or-toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--ux-4);
+
+  padding-top: var(--ux-2);
+}
+
+.or-filter {
+  display: grid;
+  gap: 6px;
+
+  .or-filter__label {
+    font-size: 12px;
+    font-weight: 650;
+    color: color-mix(in srgb, var(--ui-muted) 88%, transparent);
+  }
+}
+
+/* lista kart */
+.or-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  display: grid;
+  gap: var(--ux-4); /* więcej oddechu */
+}
+
+.or-item {
+  padding: var(--ux-5);
+  display: grid;
+  gap: var(--ux-3);
+}
+
+/* góra karty: typ + status + akcje */
+.or-item__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--ux-4);
+  flex-wrap: wrap;
+}
+
+.or-item__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.or-type {
+  font-weight: 780;
+  letter-spacing: -0.02em;
+}
+
+.or-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid var(--ui-border);
+  background: var(--ui-surface-2);
+  color: color-mix(in srgb, var(--mat-sys-on-surface) 85%, transparent);
+}
+
+/* delikatne rozróżnienie statusów */
+.or-badge[data-status='Open'] {
+  border-color: color-mix(in srgb, var(--mat-sys-primary) 28%, transparent);
+  background: color-mix(in srgb, var(--mat-sys-primary) 10%, var(--ui-surface));
+}
+
+.or-badge[data-status='Fulfilled'] {
+  border-color: color-mix(in srgb, #22c55e 28%, transparent);
+  background: color-mix(in srgb, #22c55e 10%, var(--ui-surface));
+}
+
+.or-badge[data-status='Cancelled'] {
+  border-color: color-mix(in srgb, #ef4444 26%, transparent);
+  background: color-mix(in srgb, #ef4444 8%, var(--ui-surface));
+}
+
+.or-item__actions {
+  display: inline-flex;
+  gap: var(--ux-2);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.or-cancel {
+  border-color: color-mix(in srgb, #ef4444 28%, transparent);
+  background: color-mix(in srgb, #ef4444 10%, var(--ui-surface));
+  color: color-mix(in srgb, #ef4444 65%, #000);
+
+  &:hover {
+    border-color: color-mix(in srgb, #ef4444 40%, transparent);
+  }
+}
+
+.or-item__vehicle {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  code {
+    border-radius: 10px;
+    padding: 3px 8px;
+    border: 1px solid var(--ui-border);
+    background: color-mix(in srgb, var(--ui-surface) 92%, var(--mat-sys-primary));
+  }
+}
+
+.or-message {
+  border-radius: var(--ui-radius-md);
+  border: 1px solid var(--ui-border);
+  background: var(--ui-surface-2);
+  padding: 12px 14px;
+  display: grid;
+  gap: 4px;
+}
+
+.or-message__label {
+  font-size: 12px;
+  font-weight: 750;
+  color: color-mix(in srgb, var(--ui-muted) 90%, transparent);
+}
+
+.or-message__text {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.or-empty {
+  text-align: center;
+  padding: var(--ux-2) 0;
+}
+
+/* responsywność */
+@media (max-width: 720px) {
+  .or-toolbar {
+    align-items: center;
+  }
+}
+/* ===== Page header ===== */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--ux-5);
+  margin-bottom: var(--ux-4);
+  flex-wrap: wrap;
+}
+
+.page-header__left {
+  display: grid;
+  gap: 6px;
+}
+
+.page-title {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+/* delikatny akcent pod tytułem */
+.page-title--accent {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 8px;
+}
+
+.page-title--accent::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 60px;
+  height: 4px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--mat-sys-primary) 70%, transparent);
+  opacity: 0.7;
+}
+
+.page-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ui-muted);
+  line-height: 1.6;
+}
+
+/* ===== Actions spacing fix ===== */
+
+.page-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.page-actions--spaced {
+  gap: 14px; /* <-- kluczowy oddech */
+  margin-top: 6px;
+}
+
+/* ghost button dla "wróć" */
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--ui-border);
+  box-shadow: none;
+
+  &:hover {
+    background: color-mix(in srgb, var(--ui-surface) 92%, var(--mat-sys-primary));
+  }
+}
+
+/* mobile */
+@media (max-width: 720px) {
+  .page-header {
+    flex-direction: column;
+  }
+
+  .page-actions--spaced {
+    margin-top: var(--ux-2);
+  }
+}

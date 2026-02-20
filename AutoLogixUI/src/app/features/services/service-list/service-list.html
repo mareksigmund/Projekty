@@ -1,0 +1,90 @@
+<div class="page sv">
+  <!-- HEADER -->
+  <div class="sv-header">
+    <div class="sv-header__left">
+      <h1 class="sv-title">Wpisy serwisowe</h1>
+
+      <p class="sv-sub">
+        Pojazd:
+        <b> @if (vehicleHeaderLoading()) { Ładowanie... } @else { {{ vehicleLabel() }} } </b>
+      </p>
+
+      <div class="sv-actions">
+        <a class="btn" routerLink="/app/dashboard">← Dashboard</a>
+
+        @if (isServiceOrAdmin()) {
+        <button type="button" class="btn primary" (click)="goNew()">+ Dodaj wpis</button>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- STATE -->
+  @if (loading()) {
+  <div class="loading-block">
+    <div class="loader"></div>
+    <p class="loading-block__text">Ładowanie wpisów…</p>
+  </div>
+
+  } @else if (error()) {
+  <div class="card error">{{ error() }}</div>
+
+  } @else if (items().length === 0) {
+  <div class="card sv-empty">
+    <div class="sv-empty__title">Brak wpisów</div>
+    <div class="muted">Dodaj pierwszy wpis serwisowy dla tego pojazdu.</div>
+
+    @if (isServiceOrAdmin()) {
+    <div class="sv-empty__actions">
+      <button type="button" class="btn primary" (click)="goNew()">+ Dodaj wpis</button>
+    </div>
+    }
+  </div>
+
+  } @else {
+
+  <!-- LIST -->
+  <div class="sv-list">
+    @for (s of items(); track s.id) {
+    <div class="card sv-item">
+      <div class="sv-item__main">
+        <div class="sv-item__title">{{ s.title }}</div>
+
+        <div class="sv-item__meta muted">
+          {{ formatDate(s.serviceDate) }}
+          <span class="sv-dot">•</span>
+          przebieg: {{ s.mileageAtService ?? '—' }} km
+          <span class="sv-dot">•</span>
+          koszt: {{ s.cost ?? '—' }} zł
+        </div>
+      </div>
+
+      @if (isServiceOrAdmin()) {
+      <div class="sv-item__actions">
+        <button type="button" class="btn" (click)="goEdit(s.id)">Edytuj</button>
+        <button type="button" class="btn danger" (click)="onDelete(s.id)">Usuń</button>
+      </div>
+      }
+    </div>
+    }
+  </div>
+
+  <!-- PAGINATION -->
+  <div class="card sv-pager">
+    <div class="sv-pager__left">
+      <button type="button" class="btn" (click)="prev()" [disabled]="page() <= 1">
+        ← Poprzednia
+      </button>
+
+      <button type="button" class="btn" (click)="next()" [disabled]="page() >= totalPages()">
+        Następna →
+      </button>
+    </div>
+
+    <div class="sv-pager__meta muted">
+      Strona <b>{{ page() }}</b> / {{ totalPages() }} • Wyników: <b>{{ total() }}</b>
+    </div>
+  </div>
+
+  }
+</div>

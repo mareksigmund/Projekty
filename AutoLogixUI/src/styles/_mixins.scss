@@ -1,0 +1,29 @@
+// src/styles/_mixins.scss
+@use './tokens' as t;
+@use './styles/tokens' as t;
+@use './styles/mixins' as m;
+
+@mixin card {
+  background: t.$surface;
+  border: 1px solid t.$border;
+  border-radius: t.$radius-lg;
+  box-shadow: t.$shadow-sm;
+}
+
+@mixin hover-lift {
+  transition: transform t.$dur t.$ease, box-shadow t.$dur t.$ease;
+  will-change: transform;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: t.$shadow-md;
+  }
+}
+
+@mixin focus-ring {
+  &:focus-visible {
+    outline: 3px solid rgba(t.$primary, 0.25);
+    outline-offset: 2px;
+    border-color: rgba(t.$primary, 0.35);
+  }
+}

@@ -1,0 +1,246 @@
+/* src/styles/_ui.scss */
+
+:root {
+  /* layout */
+  --ui-container: 1120px;
+
+  /* radius */
+  --ui-radius-sm: 12px;
+  --ui-radius-md: 16px;
+  --ui-radius-lg: 20px;
+
+  /* borders */
+  --ui-border: color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent);
+
+  /* surfaces */
+  --ui-surface: var(--mat-sys-surface);
+  --ui-surface-2: color-mix(in srgb, var(--mat-sys-surface) 94%, var(--mat-sys-primary));
+
+  /* text */
+  --ui-muted: var(--mat-sys-on-surface-variant);
+
+  /* shadows (lżejsze) */
+  --ui-shadow-sm: 0 10px 24px rgba(15, 23, 42, 0.06);
+  --ui-shadow-md: 0 18px 46px rgba(15, 23, 42, 0.1);
+
+  /* fonts */
+  --ui-display-font: 'Manrope';
+}
+
+/* page wrapper */
+.page {
+  max-width: var(--ui-container);
+  margin: 0 auto;
+  padding: var(--ux-6) var(--ux-4);
+}
+
+/* card */
+.card {
+  background: var(--ui-surface);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-lg);
+  box-shadow: var(--ui-shadow-sm);
+  padding: var(--ux-5);
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--ux-3);
+  color: color-mix(in srgb, var(--mat-sys-on-surface) 90%, transparent);
+}
+
+.card-footer {
+  margin-top: var(--ux-4);
+  padding-top: var(--ux-3);
+  border-top: 1px solid var(--ui-border);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  a {
+    font-weight: 650;
+    text-align: center;
+  }
+}
+
+/* muted + error */
+.muted {
+  color: color-mix(in srgb, var(--ui-muted) 88%, transparent);
+}
+
+.card.error {
+  border-color: color-mix(in srgb, #ef4444 28%, transparent);
+  background: color-mix(in srgb, #ef4444 6%, var(--ui-surface));
+  color: color-mix(in srgb, #ef4444 72%, #000);
+}
+
+/* ===== buttons ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  height: 40px;
+  padding: 0 16px;
+
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--mat-sys-primary) 16%, transparent);
+  background: color-mix(in srgb, var(--ui-surface) 94%, var(--mat-sys-primary));
+  color: color-mix(in srgb, var(--mat-sys-on-surface) 88%, transparent);
+
+  font: var(--mat-sys-label-large);
+  font-weight: 650; /* mniej “betonu” */
+  letter-spacing: 0.01em;
+
+  text-decoration: none;
+  cursor: pointer;
+
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
+  transition: transform var(--ux-dur-fast) var(--ux-ease),
+    box-shadow var(--ux-dur-fast) var(--ux-ease), border-color var(--ux-dur-fast) var(--ux-ease),
+    background var(--ux-dur-fast) var(--ux-ease), color var(--ux-dur-fast) var(--ux-ease);
+
+  &:hover {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--mat-sys-primary) 26%, transparent);
+    background: color-mix(in srgb, var(--ui-surface) 90%, var(--mat-sys-primary));
+    box-shadow: 0 16px 34px rgba(15, 23, 42, 0.1);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+}
+
+.btn.primary {
+  border-color: color-mix(in srgb, var(--mat-sys-primary) 28%, transparent);
+  background: color-mix(in srgb, var(--mat-sys-primary) 14%, var(--ui-surface));
+}
+
+/* focus (klawiatura) – spójne globalnie */
+.btn:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--mat-sys-primary) 24%, transparent);
+  outline-offset: 2px;
+}
+
+/* ===== lists ===== */
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--ux-3);
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--ux-4);
+  align-items: center;
+
+  padding: 12px 14px;
+  border-radius: var(--ui-radius-md);
+  border: 1px solid var(--ui-border);
+  background: var(--ui-surface-2);
+}
+
+.li-main {
+  display: grid;
+  gap: 4px;
+
+  b {
+    font-weight: 700; /* lżej niż 800+ */
+    color: color-mix(in srgb, var(--mat-sys-on-surface) 90%, transparent);
+  }
+}
+
+/* inputs/selects (dla miejsc gdzie nie używasz material) */
+.ui-input,
+.ui-select {
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 12px;
+  border: 1px solid var(--ui-border);
+  background: color-mix(in srgb, var(--ui-surface) 94%, var(--mat-sys-primary));
+  color: color-mix(in srgb, var(--mat-sys-on-surface) 88%, transparent);
+  outline: none;
+
+  &:focus {
+    border-color: color-mix(in srgb, var(--mat-sys-primary) 48%, transparent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--mat-sys-primary) 14%, transparent);
+  }
+}
+
+/* ===== Refresh button (global) ===== */
+/* użycie:
+   <button class="btn btn-refresh">...</button>
+   <button class="btn btn-refresh btn-refresh--icon" aria-label="Odśwież">...</button>
+*/
+.btn-refresh {
+  gap: 10px;
+  padding-left: 14px;
+  padding-right: 16px;
+
+  border-color: color-mix(in srgb, var(--mat-sys-primary) 22%, transparent);
+  background: color-mix(in srgb, var(--mat-sys-primary) 12%, var(--ui-surface));
+
+  &:hover {
+    border-color: color-mix(in srgb, var(--mat-sys-primary) 32%, transparent);
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+    display: block;
+    fill: currentColor;
+  }
+
+  &:active svg,
+  &:focus-visible svg {
+    animation: ui-refresh-spin 520ms linear;
+  }
+}
+
+/* wariant: tylko ikonka */
+.btn-refresh--icon {
+  width: 40px;
+  padding: 0;
+  justify-content: center;
+
+  svg {
+    margin: 0;
+  }
+}
+
+@keyframes ui-refresh-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* motion a11y */
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .btn-refresh {
+    transition: none !important;
+  }
+  .btn-refresh:active svg,
+  .btn-refresh:focus-visible svg {
+    animation: none !important;
+  }
+}

@@ -1,0 +1,96 @@
+<div class="app-form app-form--register">
+  <header class="app-form__header">
+    <h1 class="app-form__title">Utwórz konto</h1>
+    <p class="app-form__subtitle">
+      Załóż konto, aby dodawać pojazdy, serwisy i koszty w jednym miejscu.
+    </p>
+  </header>
+
+  <form class="app-form__body" [formGroup]="form" (ngSubmit)="submit()">
+    <!-- EMAIL -->
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        type="email"
+        inputmode="email"
+        formControlName="email"
+        autocomplete="email"
+        autocapitalize="none"
+        spellcheck="false"
+        placeholder="np. jan@firma.pl"
+        enterkeyhint="next"
+      />
+
+      @if (form.controls.email.touched && form.controls.email.invalid) {
+      <mat-error>
+        @if (form.controls.email.errors?.['required']) { Email jest wymagany } @else { Podaj
+        poprawny adres email }
+      </mat-error>
+      }
+    </mat-form-field>
+
+    <!-- PASSWORD -->
+    <mat-form-field appearance="outline">
+      <mat-label>Hasło</mat-label>
+      <input
+        matInput
+        type="password"
+        formControlName="password"
+        autocomplete="new-password"
+        placeholder="Minimum 6 znaków"
+        enterkeyhint="next"
+      />
+
+      @if (form.controls.password.touched && form.controls.password.invalid) {
+      <mat-error>
+        @if (form.controls.password.errors?.['required']) { Hasło jest wymagane } @else { Hasło musi
+        mieć co najmniej 6 znaków }
+      </mat-error>
+      }
+    </mat-form-field>
+
+    <!-- NAME ROW -->
+    <div class="app-form__row">
+      <mat-form-field appearance="outline">
+        <mat-label>Imię</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="firstName"
+          autocomplete="given-name"
+          placeholder="opcjonalnie"
+          enterkeyhint="next"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Nazwisko</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="lastName"
+          autocomplete="family-name"
+          placeholder="opcjonalnie"
+          enterkeyhint="done"
+        />
+      </mat-form-field>
+    </div>
+
+    <!-- BACKEND MESSAGES -->
+    @if (error) {
+    <div class="app-form__message app-form__message--error" role="alert">
+      {{ error }}
+    </div>
+    } @if (success) {
+    <div class="app-form__message app-form__message--success" role="alert">
+      {{ success }}
+    </div>
+    }
+
+    <!-- SUBMIT -->
+    <button mat-raised-button color="primary" type="submit" [disabled]="loading || form.invalid">
+      @if (loading) { Tworzenie konta... } @else { Zarejestruj }
+    </button>
+  </form>
+</div>

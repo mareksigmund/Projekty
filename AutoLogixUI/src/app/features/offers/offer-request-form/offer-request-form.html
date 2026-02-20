@@ -1,0 +1,93 @@
+<div class="page">
+  <div class="page-header page-header--hero">
+    <div class="page-header__text">
+      <h1 class="page-title page-title--hero">Nowa prośba o ofertę</h1>
+      <p class="page-subtitle">
+        Wybierz pojazd i typ polisy. Jeśli coś jest zablokowane, zobaczysz powód poniżej.
+      </p>
+    </div>
+
+    <div class="page-actions page-actions--spaced">
+      <button type="button" class="btn btn-ghost" (click)="back()">← Wróć</button>
+      <a class="btn primary" routerLink="/app/dashboard">Dashboard</a>
+    </div>
+  </div>
+
+  @if (loading()) {
+  <div class="loading-block">
+    <div class="loader"></div>
+    <p class="loading-block__text">Ładowanie…</p>
+  </div>
+  } @else {
+
+  <div class="card offer-form">
+    <form [formGroup]="form" (ngSubmit)="submit()" class="offer-form__body">
+      <!-- Locked vehicle (z detali) -->
+      @if (isLockedVehicle()) {
+      <div class="ui-note ui-note--info">
+        <div class="ui-note__title">Pojazd wybrany ze szczegółów</div>
+        <div class="ui-note__value">{{ lockedVehicleLabel() }}</div>
+      </div>
+      } @else {
+      <label class="ui-field">
+        <span class="ui-field__label">Pojazd <span class="req">*</span></span>
+
+        <select class="ui-select" formControlName="vehicleId">
+          <option value="" disabled>— wybierz —</option>
+          @for (v of vehicles(); track v.id) {
+          <option [value]="v.id">{{ vehicleLabelById(v.id) }}</option>
+          }
+        </select>
+      </label>
+      }
+
+      <label class="ui-field">
+        <span class="ui-field__label">Typ <span class="req">*</span></span>
+
+        <select class="ui-select" formControlName="type">
+          <option value="OC" [disabled]="isTypeDisabled('OC')">OC</option>
+          <option value="AC" [disabled]="isTypeDisabled('AC')">AC</option>
+          <option value="OC_AC" [disabled]="isTypeDisabled('OC_AC')">OC + AC</option>
+        </select>
+      </label>
+
+      <!-- Powody blokady -->
+      <div class="ui-hints">
+        @if (isTypeDisabled('OC') && typeReason('OC')) {
+        <div class="ui-hint ui-hint--warn">OC: {{ typeReason('OC') }}</div>
+        } @if (isTypeDisabled('AC') && typeReason('AC')) {
+        <div class="ui-hint ui-hint--warn">AC: {{ typeReason('AC') }}</div>
+        } @if (isTypeDisabled('OC_AC') && typeReason('OC_AC')) {
+        <div class="ui-hint ui-hint--warn">OC + AC: {{ typeReason('OC_AC') }}</div>
+        }
+      </div>
+
+      <label class="ui-field">
+        <span class="ui-field__label">Wiadomość <span class="opt">(opcjonalnie)</span></span>
+
+        <textarea class="ui-textarea" rows="4" formControlName="message"></textarea>
+        <span class="ui-field__help">Np. preferowany okres, dodatkowe uwagi.</span>
+      </label>
+
+      @if (error()) {
+      <div class="ui-note ui-note--error" role="alert">
+        {{ error() }}
+      </div>
+      }
+
+      <div class="offer-form__actions">
+        <button type="button" class="btn btn-ghost" (click)="back()">Anuluj</button>
+
+        <button
+          type="submit"
+          class="btn primary"
+          [disabled]="saving() || form.invalid || isTypeDisabled(form.value.type!)"
+        >
+          @if (saving()) { Wysyłanie... } @else { Wyślij prośbę }
+        </button>
+      </div>
+    </form>
+  </div>
+
+  }
+</div>

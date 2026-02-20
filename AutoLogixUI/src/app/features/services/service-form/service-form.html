@@ -1,0 +1,177 @@
+<div class="page se">
+  <!-- HEADER -->
+  <div class="se-header">
+    <div class="se-header__left">
+      <h1 class="se-title">
+        @if (isEditMode()) { Edytuj wpis serwisowy } @else { Dodaj wpis serwisowy }
+      </h1>
+
+      <p class="se-sub">
+        Pojazd: <b>{{ vehicleLabel() }}</b>
+      </p>
+
+      <div class="se-actions">
+        <button type="button" class="btn" (click)="backToList()">← Wróć do wpisów</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VEHICLE INFO -->
+  <div class="card se-veh">
+    <div class="se-veh__grid">
+      <div class="se-veh__item">
+        <div class="se-veh__k">VIN</div>
+        <div class="se-veh__v">{{ vehicleVin() ?? '—' }}</div>
+      </div>
+
+      <div class="se-veh__item">
+        <div class="se-veh__k">Aktualny przebieg</div>
+        <div class="se-veh__v">{{ vehicleMileage() ?? '—' }} km</div>
+      </div>
+
+      <div class="se-veh__item">
+        <div class="se-veh__k">Paliwo</div>
+        <div class="se-veh__v">{{ vehicleFuel() ?? '—' }}</div>
+      </div>
+
+      <div class="se-veh__item">
+        <div class="se-veh__k">Moc</div>
+        <div class="se-veh__v">{{ vehiclePower() ?? '—' }} HP</div>
+      </div>
+    </div>
+  </div>
+
+  @if (error()) {
+  <div class="card error se-error">
+    {{ error() }}
+  </div>
+  }
+
+  <!-- FORM -->
+  <form class="card se-form" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="se-grid">
+      <!-- service type -->
+      <div class="se-field se-span-2">
+        <label class="se-label">Rodzaj usługi</label>
+        <select class="ui-select" formControlName="serviceType">
+          @for (t of serviceTypes; track t.key) {
+          <option [value]="t.key">{{ t.label }}</option>
+          }
+        </select>
+        <div class="se-hint">Podpowiada tytuł i opis (jeśli nie edytowałeś ręcznie).</div>
+      </div>
+
+      <!-- date -->
+      <div class="se-field">
+        <label class="se-label">Data <span class="se-req">*</span></label>
+        <input class="ui-input" type="date" formControlName="serviceDate" />
+      </div>
+
+      <!-- mileage at service -->
+      <div class="se-field">
+        <label class="se-label">Przebieg przy serwisie (km)</label>
+        <input
+          class="ui-input"
+          type="number"
+          formControlName="mileageAtService"
+          placeholder="np. 156000"
+        />
+        <div class="se-hint">
+          Jeśli puste, podstawiamy aktualny przebieg pojazdu (jeśli dostępny).
+        </div>
+      </div>
+
+      <!-- title -->
+      <div class="se-field se-span-2">
+        <label class="se-label">Tytuł <span class="se-req">*</span></label>
+        <input class="ui-input" type="text" formControlName="title" />
+      </div>
+
+      <!-- cost -->
+      <div class="se-field">
+        <label class="se-label">Koszt (zł)</label>
+        <input class="ui-input" type="number" formControlName="cost" placeholder="np. 450" />
+      </div>
+
+      <!-- workshop -->
+      <div class="se-field">
+        <label class="se-label">Warsztat</label>
+        <select class="ui-select" formControlName="workshopKey">
+          @for (w of workshops; track w.key) {
+          <option [value]="w.key">{{ w.label }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- custom workshop -->
+      @if (isWorkshopOther()) {
+      <div class="se-field se-span-2">
+        <label class="se-label">Nazwa warsztatu (Inny…)</label>
+        <input
+          class="ui-input"
+          type="text"
+          formControlName="workshopCustomName"
+          placeholder="np. Warsztat Kowalski"
+        />
+      </div>
+      }
+
+      <!-- address -->
+      <div class="se-field se-span-2">
+        <label class="se-label">Adres warsztatu</label>
+        <input
+          class="ui-input"
+          type="text"
+          formControlName="workshopAddress"
+          placeholder="opcjonalnie"
+        />
+      </div>
+
+      <!-- description -->
+      <div class="se-field se-span-2">
+        <label class="se-label">Opis</label>
+        <textarea class="ui-input se-textarea" rows="4" formControlName="description"></textarea>
+      </div>
+    </div>
+
+    <!-- NEXT SERVICE -->
+    <div class="se-divider"></div>
+
+    <div class="se-section">
+      <div class="se-section__title">Następny serwis <span class="muted">(opcjonalnie)</span></div>
+
+      <div class="se-grid se-grid--next">
+        <div class="se-field">
+          <label class="se-label">Data</label>
+          <input class="ui-input" type="date" formControlName="nextServiceDate" />
+        </div>
+
+        <div class="se-field">
+          <label class="se-label">Przebieg (km)</label>
+          <input class="ui-input" type="number" formControlName="nextServiceMileage" />
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTES -->
+    <div class="se-grid" style="margin-top: var(--ux-4)">
+      <div class="se-field se-span-2">
+        <label class="se-label">Notatki</label>
+        <textarea class="ui-input se-textarea" rows="3" formControlName="notes"></textarea>
+      </div>
+    </div>
+
+    <!-- FOOTER ACTIONS -->
+    <div class="se-footer">
+      <button type="submit" class="btn primary" [disabled]="loading() || form.invalid">
+        @if (loading()) { Zapisywanie... } @else { Zapisz }
+      </button>
+
+      @if (isEditMode()) {
+      <button type="button" class="btn danger" (click)="onDelete()" [disabled]="loading()">
+        Usuń
+      </button>
+      }
+    </div>
+  </form>
+</div>

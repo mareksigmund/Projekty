@@ -1,0 +1,28 @@
+<div class="auth-page">
+  <div class="auth-card" [class]="cardClass()">
+    <!-- przesuwany gradient -->
+    <div class="auth-bg"></div>
+
+    <!-- HERO: panel na gradiencie (tekst + przycisk) -->
+    <div class="auth-hero auth-hero--left">
+      <h2>Witamy ponownie</h2>
+      <p>Zaloguj się, aby zarządzać historią serwisową i kosztami pojazdów.</p>
+      <button type="button" class="hero-btn" (click)="goLogin()">ZALOGUJ</button>
+    </div>
+
+    <div class="auth-hero auth-hero--right">
+      <h2>Cześć!</h2>
+      <p>Załóż konto, dodawaj pojazdy i zapisuj serwisy w jednym miejscu.</p>
+      <button type="button" class="hero-btn" (click)="goRegister()">ZAŁÓŻ KONTO</button>
+    </div>
+
+    <!-- Panele formularzy -->
+    <div class="auth-panel auth-panel--login" [attr.aria-hidden]="mode() !== 'login'">
+      <app-login (requestRegister)="goRegister()"></app-login>
+    </div>
+
+    <div class="auth-panel auth-panel--register" [attr.aria-hidden]="mode() !== 'register'">
+      <app-register (requestLogin)="goLogin()"></app-register>
+    </div>
+  </div>
+</div>

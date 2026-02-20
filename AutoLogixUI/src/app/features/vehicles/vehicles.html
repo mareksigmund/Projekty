@@ -1,0 +1,114 @@
+<div class="page vehicles">
+  <div class="vehicles-header">
+    <div class="vehicles-head">
+      <h1 class="vehicles-title">Pojazdy</h1>
+      <p class="vehicles-sub">Twoja lista pojazdów. Dodawaj i zarządzaj danymi.</p>
+
+      <div class="vehicles-actions">
+        <a class="btn" routerLink="/app/dashboard">← Dashboard</a>
+
+        <button
+          type="button"
+          class="btn btn-refresh"
+          (click)="load()"
+          aria-label="Odśwież"
+          title="Odśwież"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true">
+            <path
+              d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"
+            ></path>
+            <path
+              fill-rule="evenodd"
+              d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"
+            ></path>
+          </svg>
+          Odśwież
+        </button>
+      </div>
+    </div>
+
+    <a class="btn primary" routerLink="/app/vehicles/new">+ Dodaj pojazd</a>
+  </div>
+
+  @if (loading()) {
+  <div class="card">
+    <div class="vehicles-state">
+      <div class="loader" style="--loader-size: 34px"></div>
+      <div class="muted">Ładowanie…</div>
+    </div>
+  </div>
+  } @else if (error()) {
+  <div class="card error">{{ error() }}</div>
+  } @else if (items().length === 0) {
+  <div class="card vehicles-empty">
+    <div class="vehicles-empty__title">Brak pojazdów</div>
+    <div class="muted">Dodaj pierwszy pojazd, aby rozpocząć.</div>
+
+    <div class="vehicles-empty__actions">
+      <a class="btn primary" routerLink="/app/vehicles/new">+ Dodaj pojazd</a>
+    </div>
+  </div>
+  } @else {
+  <div class="card vehicles-table-card">
+    <div class="vehicles-table-wrap">
+      <table mat-table [dataSource]="items()" class="vehicles-table">
+        <!-- POJAZD -->
+        <ng-container matColumnDef="vehicle">
+          <th mat-header-cell *matHeaderCellDef>Pojazd</th>
+          <td mat-cell *matCellDef="let v">
+            <div class="veh-main">{{ v.brand }} {{ v.model }}</div>
+            <div class="veh-sub muted">
+              {{ v.year ?? '—' }} • {{ v.mileage != null ? v.mileage + ' km' : '—' }}
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- REJESTRACJA -->
+        <ng-container matColumnDef="registration">
+          <th mat-header-cell *matHeaderCellDef>Rejestracja</th>
+          <td mat-cell *matCellDef="let v">
+            <span class="veh-reg">{{ v.registrationNumber }}</span>
+          </td>
+        </ng-container>
+
+        <!-- ROK -->
+        <ng-container matColumnDef="year">
+          <th mat-header-cell *matHeaderCellDef>Rok</th>
+          <td mat-cell *matCellDef="let v">{{ v.year ?? '—' }}</td>
+        </ng-container>
+
+        <!-- PRZEBIEG -->
+        <ng-container matColumnDef="mileage">
+          <th mat-header-cell *matHeaderCellDef>Przebieg</th>
+          <td mat-cell *matCellDef="let v">
+            {{ v.mileage != null ? v.mileage + ' km' : '—' }}
+          </td>
+        </ng-container>
+
+        <!-- ZGODA NA OFERTY -->
+        <ng-container matColumnDef="offers">
+          <th mat-header-cell *matHeaderCellDef>Zgoda na oferty</th>
+          <td mat-cell *matCellDef="let v">
+            <span class="veh-pill" [class.veh-pill--ok]="offersText(v) === 'TAK'">
+              {{ offersText(v) }}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- AKCJE -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="actions-col"></th>
+          <td mat-cell *matCellDef="let v" class="actions-col">
+            <a class="btn btn-sm" [routerLink]="['/app/vehicles', v.id]">Szczegóły</a>
+            <a class="btn btn-sm" [routerLink]="['/app/vehicles', v.id, 'edit']">Edytuj</a>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="cols"></tr>
+        <tr mat-row *matRowDef="let row; columns: cols" class="vehicles-row"></tr>
+      </table>
+    </div>
+  </div>
+  }
+</div>

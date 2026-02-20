@@ -1,0 +1,179 @@
+<div class="page vehicle-form">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">@if (isEditMode()) { Edytuj pojazd } @else { Dodaj pojazd }</h1>
+      <p class="subtitle">Uzupełnij podstawowe dane. Resztę możesz dodać później.</p>
+    </div>
+
+    <a class="btn" routerLink="/app/vehicles">← Wróć do listy pojazdów</a>
+  </div>
+
+  <div class="card">
+    <form class="form" [formGroup]="form" (ngSubmit)="submit()">
+      <div class="grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Marka</mat-label>
+          <input matInput type="text" formControlName="brand" />
+          @if (form.controls.brand.touched && form.controls.brand.invalid) {
+          <mat-error>
+            @if (form.controls.brand.errors?.['required']) { Pole wymagane. } @else if
+            (form.controls.brand.errors?.['maxlength']) { Maksymalnie 100 znaków. }
+          </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Model</mat-label>
+          <input matInput type="text" formControlName="model" />
+          @if (form.controls.model.touched && form.controls.model.invalid) {
+          <mat-error>
+            @if (form.controls.model.errors?.['required']) { Pole wymagane. } @else if
+            (form.controls.model.errors?.['maxlength']) { Maksymalnie 100 znaków. }
+          </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="span-2">
+          <mat-label>Numer rejestracyjny</mat-label>
+          <input matInput type="text" formControlName="registrationNumber" />
+          @if (form.controls.registrationNumber.touched && form.controls.registrationNumber.invalid)
+          {
+          <mat-error>
+            @if (form.controls.registrationNumber.errors?.['required']) { Pole wymagane. } @else{
+            @if (form.controls.registrationNumber.errors?.['maxlength']) { Maksymalnie 20 znaków. }}
+          </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Rok</mat-label>
+          <input matInput type="number" formControlName="year" />
+          @if (form.controls.year.touched && form.controls.year.invalid) {
+          <mat-error>Podaj poprawny rok.</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Przebieg (km)</mat-label>
+          <input matInput type="number" formControlName="mileage" />
+          @if (form.controls.mileage.touched && form.controls.mileage.invalid) {
+          <mat-error>Wartość nie może być ujemna.</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="span-2">
+          <mat-label>Notatki</mat-label>
+          <textarea matInput rows="4" formControlName="notes"></textarea>
+          @if (form.controls.notes.touched && form.controls.notes.invalid) {
+          <mat-error>Maksymalnie 1000 znaków.</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <!-- CONSENT -->
+      <div class="consent">
+        <mat-checkbox formControlName="allowInsuranceOffers">
+          Zgadzam się na oferty ubezpieczeniowe dla tego pojazdu
+        </mat-checkbox>
+
+        <p class="note note--info">Ubezpieczyciel zobaczy pojazd tylko jeśli wyrazisz zgodę.</p>
+      </div>
+
+      <mat-accordion class="accordion">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>Dodatkowe informacje</mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div class="grid grid--optional">
+            <mat-form-field appearance="outline">
+              <mat-label>Wersja</mat-label>
+              <input matInput type="text" formControlName="version" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>VIN</mat-label>
+              <input matInput type="text" formControlName="vin" maxlength="17" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Rodzaj paliwa</mat-label>
+              <mat-select formControlName="fuelType">
+                @for (f of fuelOptions; track f.value) {
+                <mat-option [value]="f.value">{{ f.label }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Pojemność silnika (cm³)</mat-label>
+              <input matInput type="number" formControlName="engineCapacity" />
+              @if (form.controls.engineCapacity.touched && form.controls.engineCapacity.invalid) {
+              <mat-error>Wartość nie może być ujemna.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Moc (KM)</mat-label>
+              <input matInput type="number" formControlName="enginePowerHp" />
+              @if (form.controls.enginePowerHp.touched && form.controls.enginePowerHp.invalid) {
+              <mat-error>Wartość nie może być ujemna.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Data pierwszej rejestracji</mat-label>
+              <input matInput [matDatepicker]="dpFirst" formControlName="firstRegistrationDate" />
+              <mat-datepicker-toggle matSuffix [for]="dpFirst"></mat-datepicker-toggle>
+              <mat-datepicker #dpFirst></mat-datepicker>
+            </mat-form-field>
+
+            @if (canEditSensitiveDates()) {
+            <mat-form-field appearance="outline">
+              <mat-label>Termin przeglądu</mat-label>
+              <input
+                matInput
+                [matDatepicker]="dpTech"
+                formControlName="technicalInspectionDueDate"
+              />
+              <mat-datepicker-toggle matSuffix [for]="dpTech"></mat-datepicker-toggle>
+              <mat-datepicker #dpTech></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Termin OC</mat-label>
+              <input matInput [matDatepicker]="dpOc" formControlName="insuranceOcDueDate" />
+              <mat-datepicker-toggle matSuffix [for]="dpOc"></mat-datepicker-toggle>
+              <mat-datepicker #dpOc></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Termin AC</mat-label>
+              <input matInput [matDatepicker]="dpAc" formControlName="insuranceAcDueDate" />
+              <mat-datepicker-toggle matSuffix [for]="dpAc"></mat-datepicker-toggle>
+              <mat-datepicker #dpAc></mat-datepicker>
+            </mat-form-field>
+            } @else {
+            <p class="note note--muted span-2">
+              Terminy przeglądu i polis uzupełnia serwisant / ubezpieczyciel.
+            </p>
+            }
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+
+      @if (error()) {
+      <div class="card error" role="alert">{{ error() }}</div>
+      }
+
+      <div class="actions">
+        <a class="btn" routerLink="/app/dashboard">Anuluj</a>
+
+        <button class="btn primary" type="submit" [disabled]="loading() || form.invalid">
+          @if (loading()) { @if (isEditMode()) { Zapisywanie zmian... } @else { Zapisywanie... } }
+          @else { @if (isEditMode()) { Zapisz zmiany } @else { Dodaj pojazd } }
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

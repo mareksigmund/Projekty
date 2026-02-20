@@ -1,0 +1,149 @@
+.insurer-veh {
+  display: grid;
+  gap: var(--ux-5);
+}
+
+/* header */
+.iv-header {
+  display: grid;
+  gap: var(--ux-3);
+}
+
+.iv-title {
+  margin: 0;
+  font-size: 36px;
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+  font-weight: 780;
+  color: color-mix(in srgb, var(--mat-sys-on-surface) 92%, transparent);
+  position: relative;
+  display: inline-block;
+
+  &::after {
+    content: '';
+    display: block;
+    height: 10px;
+    margin-top: 8px;
+    border-radius: 999px;
+    width: 56%;
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--mat-sys-primary) 30%, transparent),
+      transparent
+    );
+    opacity: 0.85;
+  }
+}
+
+.iv-sub {
+  margin: 0;
+  max-width: 78ch;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--mat-sys-on-surface-variant) 82%, transparent);
+  font-size: 14px;
+}
+
+.iv-actions {
+  margin-top: var(--ux-3);
+  display: flex;
+  gap: var(--ux-3); /* tu jest „oddech” */
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* grid KV */
+.iv-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--ux-3);
+}
+
+.iv-kv {
+  border: 1px solid color-mix(in srgb, var(--ui-border) 75%, transparent);
+  background: color-mix(in srgb, var(--ui-surface) 94%, var(--mat-sys-primary));
+  border-radius: var(--ui-radius-md);
+  padding: 12px 14px;
+  display: grid;
+  gap: 6px;
+}
+
+.iv-k {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ui-muted) 86%, transparent);
+  font-weight: 800;
+}
+
+.iv-v {
+  font-weight: 750;
+  letter-spacing: -0.01em;
+  color: color-mix(in srgb, var(--mat-sys-on-surface) 92%, transparent);
+}
+
+.iv-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+  font-weight: 650;
+}
+
+.iv-span-2 {
+  grid-column: 1 / -1;
+}
+
+.iv-pill {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid var(--ui-border);
+  background: color-mix(in srgb, var(--ui-surface) 92%, var(--mat-sys-primary));
+  font-weight: 800;
+  font-size: 12px;
+  margin-right: 10px;
+}
+
+.iv-pill--ok {
+  border-color: color-mix(in srgb, #22c55e 35%, transparent);
+  background: color-mix(in srgb, #22c55e 10%, var(--ui-surface));
+}
+
+.iv-hint {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* services */
+.iv-section-sub {
+  margin-top: -6px;
+  font-size: 13px;
+}
+
+.iv-list {
+  margin-top: var(--ux-3);
+}
+
+.iv-item {
+  background: color-mix(in srgb, var(--ui-surface) 92%, var(--mat-sys-primary));
+}
+
+.iv-empty {
+  margin-top: 14px;
+  padding: 18px;
+  border-radius: var(--ui-radius-md);
+  border: 1px dashed color-mix(in srgb, var(--ui-border) 80%, transparent);
+  text-align: center;
+}
+
+.iv-empty__title {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+
+/* responsive */
+@media (max-width: 720px) {
+  .iv-grid {
+    grid-template-columns: 1fr;
+  }
+}

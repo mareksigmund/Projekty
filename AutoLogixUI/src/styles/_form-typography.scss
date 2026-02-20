@@ -1,0 +1,31 @@
+/* src/styles/_form-typography.scss */
+/* Globalna typografia formularzy – NEUTRALNA */
+/* Bez wyrównania, bez max-width – tylko hierarchia tekstu */
+
+.app-form__title {
+  font-size: 28px;
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+
+  color: var(--mat-sys-on-surface);
+}
+
+.app-form__subtitle {
+  font-size: 14px;
+  line-height: 1.5;
+
+  color: var(--mat-sys-on-surface-variant);
+}
+
+/* komunikaty backendowe – spójna typografia */
+.app-form__message {
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+/* hinty (np. mobile switch) */
+.app-form__hint {
+  font-size: 14px;
+  line-height: 1.4;
+}

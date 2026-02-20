@@ -1,0 +1,262 @@
+/* vehicle-form.scss */
+
+:host {
+  display: block;
+}
+
+/* wrapper strony */
+.page {
+  max-width: var(--ui-container);
+  margin: 0 auto;
+  padding: var(--ux-6) var(--ux-4);
+
+  display: grid;
+  gap: var(--ux-5);
+}
+
+/* header */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--ux-4);
+  flex-wrap: wrap;
+
+  h1 {
+    margin: 0;
+
+    /* bardziej "display" */
+    font-family: var(--ui-display-font), Inter, system-ui, sans-serif;
+    font-size: 36px;
+    line-height: 1.06;
+    letter-spacing: -0.045em;
+
+    /* mniej czarno, bardziej elegancko */
+    font-weight: 760;
+    color: color-mix(in srgb, var(--mat-sys-on-surface) 92%, transparent);
+
+    position: relative;
+    display: inline-block;
+
+    /* subtelny akcent pod tytułem */
+    &::after {
+      content: '';
+      display: block;
+      height: 10px;
+      margin-top: 10px;
+      border-radius: 999px;
+      width: 62%;
+
+      background: linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--mat-sys-primary) 34%, transparent),
+        transparent
+      );
+
+      opacity: 0.9;
+    }
+  }
+
+  .subtitle {
+    margin: 10px 0 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: color-mix(in srgb, var(--mat-sys-on-surface-variant) 84%, transparent);
+    max-width: 72ch;
+  }
+}
+
+/* karta: MatCard + nasz ui */
+mat-card.card {
+  border-radius: var(--ui-radius-lg);
+  border: 1px solid var(--ui-border);
+  box-shadow: var(--ui-shadow-md);
+  background: var(--ui-surface);
+}
+
+/* form layout */
+.form {
+  display: grid;
+  gap: var(--ux-5);
+}
+
+/* grid pól */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--ux-4);
+
+  .span-2 {
+    grid-column: 1 / -1;
+  }
+}
+
+.grid--optional {
+  margin-top: var(--ux-3);
+}
+
+/* mat-form-field: pełna szerokość w gridzie */
+mat-form-field {
+  width: 100%;
+}
+
+/* textarea trochę „miękciej” */
+textarea[matInput] {
+  resize: vertical;
+  min-height: 96px;
+}
+
+/* consent block */
+.consent {
+  display: grid;
+  gap: var(--ux-2);
+  margin-top: -4px;
+}
+
+/* uniwersalne notki */
+.note {
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  font-size: 13px;
+  line-height: 1.5;
+
+  color: color-mix(in srgb, var(--mat-sys-on-surface-variant) 86%, transparent);
+
+  /* ikonka po lewej — pseudo-element */
+  &::before {
+    content: 'i';
+    display: inline-grid;
+    place-items: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    flex: 0 0 18px;
+
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1;
+
+    margin-top: 1px;
+
+    background: color-mix(in srgb, var(--mat-sys-primary) 14%, var(--ui-surface));
+    border: 1px solid color-mix(in srgb, var(--mat-sys-primary) 22%, transparent);
+    color: color-mix(in srgb, var(--mat-sys-primary) 68%, #000);
+  }
+}
+
+/* wersja delikatniejsza (np. “Terminy uzupełnia…”) */
+.note--muted {
+  color: color-mix(in srgb, var(--mat-sys-on-surface-variant) 78%, transparent);
+
+  &::before {
+    opacity: 0.9;
+    background: color-mix(in srgb, var(--mat-sys-on-surface) 6%, var(--ui-surface));
+    border-color: color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent);
+    color: color-mix(in srgb, var(--mat-sys-on-surface-variant) 78%, #000);
+  }
+}
+
+/* wersja “info” pod consent */
+.note--info {
+  color: color-mix(in srgb, var(--mat-sys-on-surface-variant) 86%, transparent);
+
+  &::before {
+    content: '!';
+    background: color-mix(in srgb, var(--mat-sys-primary) 16%, var(--ui-surface));
+    border-color: color-mix(in srgb, var(--mat-sys-primary) 26%, transparent);
+    color: color-mix(in srgb, var(--mat-sys-primary) 74%, #000);
+  }
+}
+
+/* accordion */
+.accordion {
+  .mat-expansion-panel {
+    border-radius: var(--ui-radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--ui-border);
+    box-shadow: none;
+  }
+
+  .mat-expansion-panel-header {
+    padding: 0 var(--ux-4);
+  }
+
+  .mat-expansion-panel-header-title {
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .mat-expansion-panel-header-description {
+    color: var(--ui-muted);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .mat-expansion-panel-body {
+    padding: var(--ux-4);
+  }
+}
+
+/* error box (backend) */
+.error-box {
+  border-radius: var(--ui-radius-md);
+  padding: 12px 14px;
+  border: 1px solid color-mix(in srgb, #ef4444 28%, transparent);
+  background: color-mix(in srgb, #ef4444 6%, var(--ui-surface));
+  color: color-mix(in srgb, #ef4444 75%, #000);
+
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+/* actions */
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--ux-3);
+  padding-top: var(--ux-2);
+
+  /* Material przyciski trochę bardziej „appowe” */
+  button[mat-raised-button] {
+    height: 44px;
+    border-radius: 999px;
+    padding: 0 18px;
+  }
+
+  a[mat-button] {
+    border-radius: 999px;
+  }
+}
+
+/* responsywka */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+
+    .span-2 {
+      grid-column: auto;
+    }
+  }
+
+  .page-header {
+    a[mat-button] {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+
+    button[mat-raised-button],
+    a[mat-button] {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}

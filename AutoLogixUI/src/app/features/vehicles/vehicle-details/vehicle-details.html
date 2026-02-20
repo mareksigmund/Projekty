@@ -1,0 +1,202 @@
+@if (loading()) {
+<div class="loading-block">
+  <div class="loader"></div>
+  <p class="loading-block__text">Ładowanie danych pojazdu…</p>
+</div>
+} @else if (error()) {
+<div class="card error">{{ error() }}</div>
+} @else if (vehicle()) {
+
+<div class="page vehicle-details">
+  <div class="page-header">
+    <div class="page-header__text">
+      <h1 class="page-title">{{ vehicle()!.brand }} {{ vehicle()!.model }}</h1>
+      <p class="page-subtitle">
+        Rejestracja: <b>{{ vehicle()!.registrationNumber }}</b>
+      </p>
+    </div>
+
+    <div class="page-actions">
+      <a class="btn" routerLink="/app/vehicles">← Wróć do listy</a>
+
+      @if (!isServiceOrAdmin()) {
+      <a class="btn primary" [routerLink]="['/app/vehicles', vehicle()!.id, 'edit']">Edytuj</a>
+      <button class="btn btn-danger" type="button" (click)="onDelete()">Usuń</button>
+      }
+    </div>
+  </div>
+
+  <!-- KARTA: dane pojazdu -->
+  <div class="card">
+    <div class="card-title">Dane pojazdu</div>
+
+    <div class="kv-grid">
+      <div class="kv">
+        <div class="k">Rok</div>
+        <div class="v">{{ vehicle()!.year ?? '—' }}</div>
+      </div>
+
+      <div class="kv">
+        <div class="k">Przebieg</div>
+        <div class="v">{{ vehicle()!.mileage ?? '—' }} km</div>
+      </div>
+
+      <div class="kv">
+        <div class="k">Paliwo</div>
+        <div class="v">{{ vehicle()!.fuelType ?? '—' }}</div>
+      </div>
+
+      <div class="kv">
+        <div class="k">Moc</div>
+        <div class="v">{{ vehicle()!.enginePowerHp ?? '—' }} HP</div>
+      </div>
+
+      <div class="kv">
+        <div class="k">VIN</div>
+        <div class="v mono">{{ vehicle()!.vin ?? '—' }}</div>
+      </div>
+
+      <div class="kv">
+        <div class="k">Pojemność</div>
+        <div class="v">{{ vehicle()!.engineCapacity ?? '—' }} cm³</div>
+      </div>
+
+      <div class="kv">
+        <div class="k">OC do</div>
+        <div class="v">
+          {{ formatDate(vehicle()!.insuranceOcDueDate) }}
+          @if (vehicle()!.insuranceOcDueDate) {
+          <span class="pill">{{ daysLeft(vehicle()!.insuranceOcDueDate!) }} dni</span>
+          }
+        </div>
+      </div>
+
+      <div class="kv">
+        <div class="k">AC do</div>
+        <div class="v">
+          {{ formatDate(vehicle()!.insuranceAcDueDate) }}
+          @if (vehicle()!.insuranceAcDueDate) {
+          <span class="pill">{{ daysLeft(vehicle()!.insuranceAcDueDate!) }} dni</span>
+          }
+        </div>
+      </div>
+    </div>
+
+    @if (vehicle()!.notes) {
+    <div class="notes">
+      <div class="k">Notatki</div>
+      <div class="v">{{ vehicle()!.notes }}</div>
+    </div>
+    }
+  </div>
+
+  <!-- KARTA: Ubezpieczenia (tylko USER/ADMIN) -->
+  @if (isUserOrAdmin()) {
+  <div class="card">
+    <div class="card-title">Ubezpieczenia</div>
+
+    <div class="subhead muted">
+      Zgoda na oferty: <b>{{ vehicle()!.allowInsuranceOffers ? 'TAK' : 'NIE' }}</b>
+    </div>
+
+    <div class="insurance-row">
+      <div class="insurance-info">
+        <div class="insurance-line">
+          <span class="k">OC:</span>
+          <span class="v">{{ formatDate(vehicle()!.insuranceOcDueDate) }}</span>
+        </div>
+        <div class="insurance-line">
+          <span class="k">AC:</span>
+          <span class="v">{{ formatDate(vehicle()!.insuranceAcDueDate) }}</span>
+        </div>
+
+        @if (!vehicle()!.allowInsuranceOffers) {
+        <div class="note note--warn">
+          Aby otrzymywać oferty od ubezpieczyciela, włącz zgodę w edycji pojazdu.
+        </div>
+        } @else {
+        <div class="note">
+          Dostępne teraz: <b>{{ availableTypesText() }}</b>
+          <div class="note__small">
+            Odnowienie OC/AC jest możliwe dopiero w oknie <b>≤ 14 dni</b> przed końcem, a dokupienie
+            brakującej polisy (np. AC) jest dostępne od razu.
+          </div>
+        </div>
+
+        @if (whyCantRequestText()) {
+        <div class="note note--error">{{ whyCantRequestText() }}</div>
+        } @if (hasOpenRequestForVehicle()) {
+        <div class="note">
+          Masz już <b>otwartą prośbę</b> dla tego pojazdu.
+          <a routerLink="/app/offer-requests">Zobacz prośby</a>
+        </div>
+        } @if (hasProposedOffersForVehicle()) {
+        <div class="note">
+          Masz <b>oferty do decyzji</b> dla tego pojazdu ({{ proposedOffersCountForVehicle() }}).
+          <a routerLink="/app/offers">Zobacz oferty</a>
+        </div>
+        } }
+      </div>
+
+      <div class="insurance-actions">
+        <button
+          class="btn primary"
+          type="button"
+          (click)="goRequestOffer()"
+          [disabled]="!vehicle()!.allowInsuranceOffers || !canRequestAnythingNow()"
+        >
+          Poproś o ofertę
+        </button>
+
+        <a class="btn" routerLink="/app/offers">Zobacz oferty</a>
+        <a class="btn" routerLink="/app/insurance">Kończące się polisy</a>
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- KARTA: Serwisy -->
+  <div class="card">
+    <div class="card-title">Historia serwisowa</div>
+    <div class="subhead muted">Wszystkie wpisy serwisowe dla tego pojazdu</div>
+
+    @if (isServiceOrAdmin()) {
+    <div class="section-actions">
+      <a class="btn primary" [routerLink]="['/app/vehicles', vehicle()!.id, 'services', 'new']">
+        + Dodaj wpis serwisowy
+      </a>
+    </div>
+    } @if (servicesLoading()) {
+    <div class="loading-block" style="padding: 16px 0">
+      <div class="loader" style="--loader-size: 34px"></div>
+      <p class="loading-block__text">Ładowanie serwisów…</p>
+    </div>
+    } @else if (servicesError()) {
+    <div class="card error">{{ servicesError() }}</div>
+    } @else if (services().length === 0) {
+    <div class="muted">Brak wpisów serwisowych.</div>
+    } @else {
+    <ul class="list">
+      @for (s of services(); track s.id) {
+      <li class="list-item">
+        <div class="li-main">
+          <b>{{ s.title }}</b>
+          <div class="muted">
+            {{ formatDate(s.serviceDate) }} • przebieg: {{ s.mileageAtService ?? '—' }} km • koszt:
+            {{ s.cost ?? '—' }} zł
+          </div>
+        </div>
+
+        @if (isServiceOrAdmin()) {
+        <a class="btn" [routerLink]="['/app/vehicles', vehicle()!.id, 'services', s.id, 'edit']">
+          Edytuj
+        </a>
+        }
+      </li>
+      }
+    </ul>
+    }
+  </div>
+</div>
+
+}
